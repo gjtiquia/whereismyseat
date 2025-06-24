@@ -1,0 +1,10 @@
+---
+import BaseLayout from "../../../layouts/Layout.astro"
+
+export const prerender = false;
+const { eventSlug } = Astro.params;
+---
+
+<BaseLayout>
+    <h1>Event Slug: {eventSlug}</h1>
+</BaseLayout>
