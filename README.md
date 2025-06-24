@@ -22,3 +22,7 @@ pnpm astro ...
 pnpm astro -- --help`
 ```
 
+## resources
+
+deploying to railway
+- https://docs.railway.com/guides/astro
