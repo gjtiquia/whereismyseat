@@ -25,5 +25,7 @@ pnpm astro -- --help`
 ## resources
 
 deploying to railway
-
 - https://docs.railway.com/guides/astro
+
+fix "packages field missing or empty" on railway
+- https://github.com/pnpm/pnpm/issues/8968
