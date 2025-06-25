@@ -30,6 +30,14 @@ deploying to railway
 fix "packages field missing or empty" on railway
 - https://github.com/pnpm/pnpm/issues/8968
 
+using frontmatter variables in script tags
+- (do know that you may forfeit typescript goodies if using inline scripting)
+- https://docs.astro.build/en/guides/client-side-scripts/#pass-frontmatter-variables-to-scripts
+- https://docs.astro.build/en/reference/directives-reference/#definevars
+
+vanilla js scripting best practices (from Hypermedia Systems book)
+- https://hypermedia.systems/client-side-scripting/
+
 ## todo
 
 config file

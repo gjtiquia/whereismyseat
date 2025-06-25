@@ -22,53 +22,87 @@ const { eventSlug } = Astro.params;
  * - here is a good article about striking a balance between native and custom select elements
  * - for this particular use case, almost all users are guaranteed to be on mobile, so dont need to consider too much about keyboard navigation
  * */
+
+type UserData = {
+    userId: string;
+    userName: string;
+};
+
+const users: UserData[] = [
+    {
+        userId: "1",
+        userName: "Apple",
+    },
+    {
+        userId: "2",
+        userName: "Barry",
+    },
+    {
+        userId: "3",
+        userName: "Charlie",
+    },
+];
 ---
 
 <BaseLayout>
-    <div class="h-dvh p-2 flex flex-col gap-2">
-        <section>
+    <div class="h-dvh p-4 flex flex-col gap-4">
+        <section class="flex flex-col gap-2">
             <label for="user-name-input" class="font-bold">
                 What is your name?
             </label>
             <input
                 id="user-name-input"
+                data-user-name-input
                 class="border-1 rounded-lg w-full py-2 px-1"
             />
         </section>
-        <section class="flex-grow min-h-0 overflow-scroll">
-            <ul class="flex flex-col divide-y divide-solid border-1 rounded-lg">
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
-                <li class="px-2 py-4">Apple</li>
+        <section data-users={users} class="flex-grow min-h-0 overflow-scroll">
+            <ul
+                data-user-name-button-list
+                class="flex flex-col divide-y divide-solid border-1 rounded-lg"
+            >
+                {
+                    users.map((user) => (
+                        <li>
+                            <button
+                                data-user-name-button
+                                data-user={JSON.stringify(user)}
+                                class="px-2 py-4 w-full cursor-pointer text-start"
+                            >
+                                {user.userName}
+                            </button>
+                        </li>
+                    ))
+                }
             </ul>
+            <script>
+                // duplicated here because types cant carry over from frontmatter
+                type UserData = {
+                    userId: string;
+                    userName: string;
+                };
+
+                const userInput = document.querySelector(
+                    "[data-user-name-input]",
+                ) as HTMLInputElement;
+
+                const ul = document.querySelector(
+                    "[data-user-name-button-list]",
+                ) as HTMLUListElement;
+
+                const buttons: NodeListOf<HTMLButtonElement> =
+                    ul.querySelectorAll("[data-user-name-button]");
+
+                buttons.forEach((button) => {
+                    const user: UserData = JSON.parse(
+                        button.dataset.user as string,
+                    );
+
+                    button.addEventListener("click", () => {
+                        userInput.value = user.userName;
+                    });
+                });
+            </script>
         </section>
         <section class="flex justify-center">
             <a>whereismyseat.gjt.io</a>
