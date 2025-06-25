@@ -3,6 +3,21 @@ import BaseLayout from "../../../layouts/Layout.astro";
 
 export const prerender = false;
 const { eventSlug } = Astro.params;
+
+/*
+ * ways to implement dropdown
+ *
+ * datalist
+ * - does not show a list in Android
+ *
+ * select
+ * - <select> and <option> and <optgroup>
+ * - but this has no "search", is scrolling and finding, but simple
+ *
+ * custom
+ * - can implement search and filter
+ * - but time consuming
+ * */
 ---
 
 <BaseLayout>
@@ -28,6 +43,28 @@ const { eventSlug } = Astro.params;
                     <option value="Barry"></option>
                     <option value="Charlie"></option>
                 </datalist>
+            </div>
+
+            <div class="flex flex-col gap-2 items-center w-full">
+                <label for="dino-select">Choose a dinosaur:</label>
+                <select
+                    id="dino-select"
+                    class="border-2 rounded-lg w-10/12 py-2 px-1 text-center"
+                >
+                    <option hidden disabled selected value="default">
+                        -- select an option --
+                    </option>
+                    <optgroup label="Theropods">
+                        <option>Tyrannosaurus</option>
+                        <option>Velociraptor</option>
+                        <option>Deinonychus</option>
+                    </optgroup>
+                    <optgroup label="Sauropods">
+                        <option>Diplodocus</option>
+                        <option>Saltasaurus</option>
+                        <option>Apatosaurus</option>
+                    </optgroup>
+                </select>
             </div>
 
             <button class="border-2 rounded-lg px-12 py-2 cursor-pointer">
