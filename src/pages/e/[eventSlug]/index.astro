@@ -24,29 +24,24 @@ const { eventSlug } = Astro.params;
  * */
 
 type UserData = {
-    userId: string;
     userName: string;
     aliases: string[];
 };
 
 const users: UserData[] = [
     {
-        userId: "1",
         userName: "Apple",
         aliases: ["the pretty one"],
     },
     {
-        userId: "2",
         userName: "Barry",
         aliases: ["a cool kid"],
     },
     {
-        userId: "3",
         userName: "Charlie",
         aliases: [],
     },
     {
-        userId: "4",
         userName: "🎤",
         aliases: ["michael", "microphone"],
     },
@@ -65,6 +60,9 @@ const users: UserData[] = [
                 data-user-name-input
                 class="border rounded-lg w-full py-2 px-1"
             />
+
+            <!-- TODO : add a CROSS button to clear input -->
+            <!-- TODO : behavior on click a name below -->
         </section>
         <section data-users={users} class="flex-grow min-h-0 overflow-scroll">
             <ul
