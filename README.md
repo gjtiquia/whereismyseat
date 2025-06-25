@@ -38,3 +38,12 @@ config file
 - can define a schema so can hv auto complete
 - kinda like configuring neovim lmao
 - at least dun need to think about db stuff, or at least just hv it like, super minimal, even for ppl writing the config
+- config stuff
+    - each event has config
+    - each guest has config
+        - display name
+        - aliases
+        - table number
+    - each table has config
+        - picture url (top flexibility of where the photos are stored)
+        - bg color (overrides event bg color)
