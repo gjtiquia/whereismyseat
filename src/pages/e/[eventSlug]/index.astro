@@ -6,5 +6,35 @@ const { eventSlug } = Astro.params;
 ---
 
 <BaseLayout>
-    <h1>Event Slug: {eventSlug}</h1>
+    <!-- <h1>Event Slug: {eventSlug}</h1> -->
+    <div class="h-dvh flex flex-col items-center justify-center gap-6">
+        <div class="grow"></div>
+        <h1 class="font-extrabold text-3xl">Where Is My Seat?</h1>
+        <div class="grow"></div>
+
+        <div class="flex flex-col gap-6 items-center w-full">
+            <div class="flex flex-col gap-2 items-center w-full">
+                <label for="user-name-input" class="font-bold">
+                    What is your name?
+                </label>
+                <input
+                    list="user-name-choices"
+                    id="user-name-input"
+                    name="user-name-input"
+                    class="border-2 rounded-lg w-10/12 py-2 px-1 text-center"
+                />
+                <datalist id="user-name-choices">
+                    <option value="Apple"></option>
+                    <option value="Barry"></option>
+                    <option value="Charlie"></option>
+                </datalist>
+            </div>
+
+            <button class="border-2 rounded-lg px-12 py-2 cursor-pointer">
+                Search
+            </button>
+        </div>
+        <div class="grow"></div>
+        <div class="h-12"></div>
+    </div>
 </BaseLayout>
