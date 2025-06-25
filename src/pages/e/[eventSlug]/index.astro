@@ -26,20 +26,29 @@ const { eventSlug } = Astro.params;
 type UserData = {
     userId: string;
     userName: string;
+    aliases: string[];
 };
 
 const users: UserData[] = [
     {
         userId: "1",
         userName: "Apple",
+        aliases: ["the pretty one"],
     },
     {
         userId: "2",
         userName: "Barry",
+        aliases: ["a cool kid"],
     },
     {
         userId: "3",
         userName: "Charlie",
+        aliases: [],
+    },
+    {
+        userId: "4",
+        userName: "🎤",
+        aliases: ["michael", "microphone"],
     },
 ];
 ---
@@ -51,19 +60,21 @@ const users: UserData[] = [
                 What is your name?
             </label>
             <input
+                type="text"
                 id="user-name-input"
                 data-user-name-input
-                class="border-1 rounded-lg w-full py-2 px-1"
+                class="border rounded-lg w-full py-2 px-1"
             />
         </section>
         <section data-users={users} class="flex-grow min-h-0 overflow-scroll">
             <ul
                 data-user-name-button-list
-                class="flex flex-col divide-y divide-solid border-1 rounded-lg"
+                hidden
+                class="flex flex-col border rounded-lg"
             >
                 {
                     users.map((user) => (
-                        <li>
+                        <li class="border-t">
                             <button
                                 data-user-name-button
                                 data-user={JSON.stringify(user)}
@@ -75,11 +86,19 @@ const users: UserData[] = [
                     ))
                 }
             </ul>
+            <p
+                data-cannot-find-user-hint
+                hidden
+                class="px-2 py-4 border rounded-lg text-red-500"
+            >
+                Sorry I cannot find your name
+            </p>
             <script>
                 // duplicated here because types cant carry over from frontmatter
                 type UserData = {
                     userId: string;
                     userName: string;
+                    aliases: string[];
                 };
 
                 const userInput = document.querySelector(
@@ -90,18 +109,84 @@ const users: UserData[] = [
                     "[data-user-name-button-list]",
                 ) as HTMLUListElement;
 
-                const buttons: NodeListOf<HTMLButtonElement> =
-                    ul.querySelectorAll("[data-user-name-button]");
+                const cannotFindUserHint = document.querySelector(
+                    "[data-cannot-find-user-hint]",
+                ) as HTMLElement;
+
+                const buttonElements: HTMLButtonElement[] = Array.from(
+                    ul.querySelectorAll("[data-user-name-button]"),
+                );
+
+                const buttons = buttonElements.map((element) => {
+                    const user: UserData = JSON.parse(
+                        element.dataset.user as string,
+                    );
+                    return { ...user, element };
+                });
 
                 buttons.forEach((button) => {
-                    const user: UserData = JSON.parse(
-                        button.dataset.user as string,
-                    );
-
-                    button.addEventListener("click", () => {
-                        userInput.value = user.userName;
+                    button.element.addEventListener("click", () => {
+                        userInput.value = button.userName;
+                        refreshButtonList();
                     });
                 });
+
+                // Note: this only fires AFTER user stops focus on element
+                userInput.addEventListener("change", refreshButtonList);
+                // Note: this fires on EACH key up
+                userInput.addEventListener("keyup", refreshButtonList);
+
+                function refreshButtonList() {
+                    const inputValue = userInput.value;
+                    const lowercaseFilter = inputValue.toLowerCase();
+
+                    let hasFirstElementRendered = false;
+                    for (const button of buttons) {
+                        const li = button.element
+                            .parentElement as HTMLLIElement;
+
+                        // ensures all li has no border-t by default
+                        li.classList.remove("border-t");
+
+                        const showElement = matchFilter(
+                            [button.userId, button.userName, ...button.aliases],
+                            lowercaseFilter,
+                        );
+                        if (showElement) {
+                            li.hidden = false;
+
+                            // this trick is necessary because tailwind first: still treats hidden children as children
+                            li.classList.add("border-t");
+                            if (!hasFirstElementRendered) {
+                                hasFirstElementRendered = true;
+                                li.classList.remove("border-t");
+                            }
+                        } else {
+                            li.hidden = true;
+                        }
+                    }
+
+                    ul.hidden = !hasFirstElementRendered;
+                    cannotFindUserHint.hidden = hasFirstElementRendered;
+                }
+
+                function matchFilter(
+                    strings: string[],
+                    lowercaseFilter: string,
+                ): boolean {
+                    for (const targetString of strings) {
+                        if (
+                            targetString
+                                .toLowerCase()
+                                .indexOf(lowercaseFilter) > -1
+                        )
+                            return true;
+                    }
+                    return false;
+                }
+
+                // refresh on load to update the border-t
+                refreshButtonList();
             </script>
         </section>
         <section class="flex justify-center">

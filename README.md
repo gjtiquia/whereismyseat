@@ -38,6 +38,12 @@ using frontmatter variables in script tags
 vanilla js scripting best practices (from Hypermedia Systems book)
 - https://hypermedia.systems/client-side-scripting/
 
+search and filter example
+- https://www.w3schools.com/howto/howto_js_filter_lists.asp
+
+convert NodeList to Array
+- https://stackoverflow.com/questions/3199588/fastest-way-to-convert-javascript-nodelist-to-array
+
 ## todo
 
 config file
