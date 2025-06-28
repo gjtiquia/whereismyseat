@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../../layouts/Layout.astro";
+import type { UserData } from "../../../scripts/UserData.ts";
 
 export const prerender = false;
 const { eventSlug } = Astro.params;
@@ -23,11 +24,6 @@ const { eventSlug } = Astro.params;
  * - for this particular use case, almost all users are guaranteed to be on mobile, so dont need to consider too much about keyboard navigation
  * */
 
-type UserData = {
-    userName: string;
-    aliases: string[];
-};
-
 const users: UserData[] = [
     {
         userName: "Apple",
@@ -49,7 +45,7 @@ const users: UserData[] = [
 ---
 
 <BaseLayout>
-    <div class="h-dvh p-4 flex flex-col gap-4">
+    <div data-event-home-page class="h-dvh p-4 flex flex-col gap-4">
         <section class="flex flex-col gap-2">
             <label for="user-name-input" class="font-bold">
                 What is your name?
@@ -88,103 +84,10 @@ const users: UserData[] = [
             >
                 Sorry I cannot find your name
             </p>
-            <script>
-                // duplicated here because types cant carry over from frontmatter
-                type UserData = {
-                    userName: string;
-                    aliases: string[];
-                };
-
-                const userInput = document.querySelector(
-                    "[data-user-name-input]",
-                ) as HTMLInputElement;
-
-                const ul = document.querySelector(
-                    "[data-user-name-button-list]",
-                ) as HTMLUListElement;
-
-                const cannotFindUserHint = document.querySelector(
-                    "[data-cannot-find-user-hint]",
-                ) as HTMLElement;
-
-                const buttonElements: HTMLButtonElement[] = Array.from(
-                    ul.querySelectorAll("[data-user-name-button]"),
-                );
-
-                const buttons = buttonElements.map((element) => {
-                    const user: UserData = JSON.parse(
-                        element.dataset.user as string,
-                    );
-                    return { ...user, element };
-                });
-
-                buttons.forEach((button) => {
-                    button.element.addEventListener("click", () => {
-                        userInput.value = button.userName;
-                        refreshButtonList();
-                    });
-                });
-
-                // Note: this only fires AFTER user stops focus on element
-                userInput.addEventListener("change", refreshButtonList);
-                // Note: this fires on EACH key up
-                userInput.addEventListener("keyup", refreshButtonList);
-
-                function refreshButtonList() {
-                    const inputValue = userInput.value;
-                    const lowercaseFilter = inputValue.toLowerCase();
-
-                    let hasFirstElementRendered = false;
-                    for (const button of buttons) {
-                        const li = button.element
-                            .parentElement as HTMLLIElement;
-
-                        // ensures all li has no border-t by default
-                        li.classList.remove("border-t");
-
-                        const showElement = matchFilter(
-                            [button.userName, ...button.aliases],
-                            lowercaseFilter,
-                        );
-                        if (showElement) {
-                            li.hidden = false;
-
-                            // this trick is necessary because tailwind first: still treats hidden children as children
-                            li.classList.add("border-t");
-                            if (!hasFirstElementRendered) {
-                                hasFirstElementRendered = true;
-                                li.classList.remove("border-t");
-                            }
-                        } else {
-                            li.hidden = true;
-                        }
-                    }
-
-                    ul.hidden = !hasFirstElementRendered;
-                    cannotFindUserHint.hidden = hasFirstElementRendered;
-                }
-
-                function matchFilter(
-                    strings: string[],
-                    lowercaseFilter: string,
-                ): boolean {
-                    for (const targetString of strings) {
-                        if (
-                            targetString
-                                .toLowerCase()
-                                .indexOf(lowercaseFilter) > -1
-                        )
-                            return true;
-                    }
-                    return false;
-                }
-
-                // refresh on load to update the border-t
-                refreshButtonList();
-            </script>
         </section>
         <section class="flex justify-center">
             <a>whereismyseat.gjt.io</a>
         </section>
     </div>
+    <script src="../../../scripts/event-home-page.ts"></script>
 </BaseLayout>
