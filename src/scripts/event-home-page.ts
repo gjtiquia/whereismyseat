@@ -1,3 +1,5 @@
+import type { UserData } from "./UserData";
+
 main();
 function main() {
     const eventHomePage = document.querySelector(
@@ -13,16 +15,24 @@ function main() {
         "[data-user-name-input]",
     ) as HTMLInputElement;
 
-    const ul = eventHomePage.querySelector(
+    const buttonList = eventHomePage.querySelector(
         "[data-user-name-button-list]",
-    ) as HTMLUListElement;
+    ) as HTMLElement;
+
+    const buttonListHint = eventHomePage.querySelector(
+        "[data-user-name-button-list-hint]",
+    ) as HTMLParagraphElement
 
     const cannotFindUserHint = eventHomePage.querySelector(
         "[data-cannot-find-user-hint]",
     ) as HTMLElement;
 
+    const searchButton = eventHomePage.querySelector(
+        "[data-search-button]"
+    ) as HTMLButtonElement;
+
     const buttonElements: HTMLButtonElement[] = Array.from(
-        ul.querySelectorAll("[data-user-name-button]"),
+        buttonList.querySelectorAll("[data-user-name-button]"),
     );
 
     const buttons = buttonElements.map((element) => {
@@ -44,11 +54,21 @@ function main() {
     // Note: this fires on EACH key up
     userInput.addEventListener("keyup", refreshButtonList);
 
+    searchButton.addEventListener("click", () => {
+        const userName = userInput.value;
+        console.log("search", userName)
+    })
+
     function refreshButtonList() {
         const inputValue = userInput.value;
+
+        buttonListHint.textContent = "👇 Find and click your name below 👇"
+        if (inputValue == "") buttonListHint.textContent = "👇 ...or find and click your name below 👇"
+
         const lowercaseFilter = inputValue.toLowerCase();
 
-        let hasFirstElementRendered = false;
+        let shownElementCount = 0;
+        let isInputValue = false;
         for (const button of buttons) {
             const li = button.element
                 .parentElement as HTMLLIElement;
@@ -60,40 +80,44 @@ function main() {
                 [button.userName, ...button.aliases],
                 lowercaseFilter,
             );
+
             if (showElement) {
+                shownElementCount++;
+
+                if (button.userName == inputValue)
+                    isInputValue = true;
+
                 li.hidden = false;
 
                 // this trick is necessary because tailwind first: still treats hidden children as children
                 li.classList.add("border-t");
-                if (!hasFirstElementRendered) {
-                    hasFirstElementRendered = true;
+                if (shownElementCount == 1)
                     li.classList.remove("border-t");
-                }
             } else {
                 li.hidden = true;
             }
         }
 
-        ul.hidden = !hasFirstElementRendered;
-        cannotFindUserHint.hidden = hasFirstElementRendered;
-    }
-
-    function matchFilter(
-        strings: string[],
-        lowercaseFilter: string,
-    ): boolean {
-        for (const targetString of strings) {
-            if (
-                targetString
-                    .toLowerCase()
-                    .indexOf(lowercaseFilter) > -1
-            )
-                return true;
-        }
-        return false;
+        buttonList.hidden = shownElementCount == 0 || isInputValue;
+        cannotFindUserHint.hidden = shownElementCount != 0;
+        searchButton.hidden = !isInputValue;
     }
 
     // refresh on load to update the border-t
     refreshButtonList();
+}
 
+function matchFilter(
+    strings: string[],
+    lowercaseFilter: string,
+): boolean {
+    for (const targetString of strings) {
+        if (
+            targetString
+                .toLowerCase()
+                .indexOf(lowercaseFilter) > -1
+        )
+            return true;
+    }
+    return false;
 }

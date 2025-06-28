@@ -48,42 +48,53 @@ const users: UserData[] = [
     <div data-event-home-page class="h-dvh p-4 flex flex-col gap-4">
         <section class="flex flex-col gap-2">
             <label for="user-name-input" class="font-bold">
-                What is your name?
+                Welcome👋 What is your name?
             </label>
             <input
+                data-user-name-input
                 type="text"
                 id="user-name-input"
-                data-user-name-input
                 class="border rounded-lg w-full py-2 px-1"
+                placeholder="Type your name here..."
             />
         </section>
-        <section data-users={users} class="flex-grow min-h-0 overflow-scroll">
-            <ul
-                data-user-name-button-list
-                hidden
-                class="flex flex-col border rounded-lg"
-            >
-                {
-                    users.map((user) => (
-                        <li class="border-t">
-                            <button
-                                data-user-name-button
-                                data-user={JSON.stringify(user)}
-                                class="px-2 py-4 w-full cursor-pointer text-start"
-                            >
-                                {user.userName}
-                            </button>
-                        </li>
-                    ))
-                }
-            </ul>
+        <section class="flex-grow min-h-0 overflow-scroll">
+            <div hidden data-user-name-button-list>
+                <p
+                    data-user-name-button-list-hint
+                    class="text-center pb-2 text-neutral-500/80"
+                >
+                </p>
+                <ul class="flex flex-col border rounded-lg">
+                    {
+                        users.map((user) => (
+                            <li class="border-t">
+                                <button
+                                    data-user-name-button
+                                    data-user={JSON.stringify(user)}
+                                    class="px-2 py-4 w-full cursor-pointer text-start"
+                                >
+                                    {user.userName}
+                                </button>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </div>
             <p
                 data-cannot-find-user-hint
                 hidden
                 class="px-2 py-4 border rounded-lg text-red-500"
             >
-                Sorry I cannot find your name
+                Sorry I cannot find your name. Please type again.
             </p>
+            <button
+                data-search-button
+                hidden
+                class="w-full px-2 py-4 text-white font-bold rounded-lg bg-green-400"
+            >
+                Search
+            </button>
         </section>
         <section class="flex justify-center">
             <a>whereismyseat.gjt.io</a>
