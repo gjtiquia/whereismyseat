@@ -44,6 +44,9 @@ search and filter example
 convert NodeList to Array
 - https://stackoverflow.com/questions/3199588/fastest-way-to-convert-javascript-nodelist-to-array
 
+fix astro dev server not running on termux proot ubuntu
+- https://github.com/termux/termux-packages/issues/10868#issuecomment-2716706060
+
 ## todo
 
 config file
