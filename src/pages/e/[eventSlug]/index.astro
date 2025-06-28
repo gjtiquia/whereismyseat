@@ -60,9 +60,6 @@ const users: UserData[] = [
                 data-user-name-input
                 class="border rounded-lg w-full py-2 px-1"
             />
-
-            <!-- TODO : add a CROSS button to clear input -->
-            <!-- TODO : behavior on click a name below -->
         </section>
         <section data-users={users} class="flex-grow min-h-0 overflow-scroll">
             <ul
@@ -94,7 +91,6 @@ const users: UserData[] = [
             <script>
                 // duplicated here because types cant carry over from frontmatter
                 type UserData = {
-                    userId: string;
                     userName: string;
                     aliases: string[];
                 };
@@ -147,7 +143,7 @@ const users: UserData[] = [
                         li.classList.remove("border-t");
 
                         const showElement = matchFilter(
-                            [button.userId, button.userName, ...button.aliases],
+                            [button.userName, ...button.aliases],
                             lowercaseFilter,
                         );
                         if (showElement) {
