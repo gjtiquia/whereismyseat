@@ -3,11 +3,11 @@ import BaseLayout from "../../../../layouts/Layout.astro";
 
 export const prerender = false;
 const { eventSlug, tableSlug } = Astro.params;
-const userId = Astro.url.searchParams.get("userId");
+const userName = Astro.url.searchParams.get("userName");
 ---
 
 <BaseLayout>
     <p>Event Slug: {eventSlug}</p>
     <p>Table Slug: {tableSlug}</p>
-    <p>userId: {userId}</p>
+    <p>userName: {userName}</p>
 </BaseLayout>

@@ -4,12 +4,14 @@ main();
 function main() {
     const eventHomePage = document.querySelector(
         "[data-event-home-page]",
-    );
+    ) as HTMLElement;
 
     if (eventHomePage == null) {
         console.error("cannot find data-event-home-page")
         return;
     }
+
+    const eventSlug = eventHomePage.dataset.eventSlug as string;
 
     const userInput = eventHomePage.querySelector(
         "[data-user-name-input]",
@@ -56,7 +58,12 @@ function main() {
 
     searchButton.addEventListener("click", () => {
         const userName = userInput.value;
-        console.log("search", userName)
+
+        const userButtons = buttons.filter(x => x.userName == userName);
+        if (userButtons.length == 0) return;
+
+        const tableSlug = userButtons[0].tableId;
+        window.location.href = `/e/${eventSlug}/t/${tableSlug}?userName=${userName}`
     })
 
     function refreshButtonList() {
@@ -98,9 +105,9 @@ function main() {
             }
         }
 
-        buttonList.hidden = shownElementCount == 0 || isInputValue;
+        buttonList.hidden = shownElementCount == 0 || (shownElementCount == 1 && isInputValue);
         cannotFindUserHint.hidden = shownElementCount != 0;
-        searchButton.hidden = !isInputValue;
+        searchButton.hidden = !(shownElementCount == 1 && isInputValue);
     }
 
     // refresh on load to update the border-t
