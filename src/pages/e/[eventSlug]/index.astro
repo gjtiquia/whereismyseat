@@ -1,6 +1,10 @@
 ---
 import BaseLayout from "../../../layouts/Layout.astro";
-import { MOCK_EVENT } from "../../../scripts/config.ts";
+import {
+    MOCK_EVENT,
+    type EventData,
+    type GuestData,
+} from "../../../scripts/config.ts";
 
 export const prerender = false;
 const { eventSlug } = Astro.params;
@@ -24,8 +28,23 @@ const { eventSlug } = Astro.params;
  * - for this particular use case, almost all guests are guaranteed to be on mobile, so dont need to consider too much about keyboard navigation
  * */
 
-// TODO : get event config json file
-const guests = MOCK_EVENT.guests;
+const USE_MOCK_DATA = false;
+
+let guests: GuestData[] = [];
+if (USE_MOCK_DATA) {
+    guests = MOCK_EVENT.guests;
+} else {
+    const url = `https://f005.backblazeb2.com/file/s3-gjt-io/whereismyseat/${eventSlug}.json`;
+
+    const response = await fetch(url);
+    if (!response.ok) {
+        // TODO : error 404, redirect
+        console.log("cannot find event");
+    }
+
+    const event: EventData = await response.json();
+    guests = event.guests;
+}
 ---
 
 <BaseLayout>
