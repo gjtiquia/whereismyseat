@@ -1,5 +1,5 @@
 import { isRenderInstance } from "astro/runtime/server/render/common.js";
-import type { UserData } from "./UserData";
+import type { GuestData } from "./config";
 
 main();
 function main() {
@@ -14,20 +14,20 @@ function main() {
 
     const eventSlug = eventHomePage.dataset.eventSlug as string;
 
-    const userInput = eventHomePage.querySelector(
-        "[data-user-name-input]",
+    const guestInput = eventHomePage.querySelector(
+        "[data-guest-name-input]",
     ) as HTMLInputElement;
 
     const buttonList = eventHomePage.querySelector(
-        "[data-user-name-button-list]",
+        "[data-guest-name-button-list]",
     ) as HTMLElement;
 
     const buttonListHint = eventHomePage.querySelector(
-        "[data-user-name-button-list-hint]",
+        "[data-guest-name-button-list-hint]",
     ) as HTMLParagraphElement
 
     const buttonListBottomHint = eventHomePage.querySelector(
-        "[data-user-name-button-list-bottom-hint]",
+        "[data-guest-name-button-list-bottom-hint]",
     ) as HTMLParagraphElement
 
     const searchButton = eventHomePage.querySelector(
@@ -35,40 +35,40 @@ function main() {
     ) as HTMLButtonElement;
 
     const buttonElements: HTMLButtonElement[] = Array.from(
-        buttonList.querySelectorAll("[data-user-name-button]"),
+        buttonList.querySelectorAll("[data-guest-name-button]"),
     );
 
     const buttons = buttonElements.map((element) => {
-        const user: UserData = JSON.parse(
-            element.dataset.user as string,
+        const guest: GuestData = JSON.parse(
+            element.dataset.guest as string,
         );
-        return { ...user, element };
+        return { ...guest, element };
     });
 
     buttons.forEach((button) => {
         button.element.addEventListener("click", () => {
-            userInput.value = button.userName;
+            guestInput.value = button.displayName;
             refreshButtonList();
         });
     });
 
-    // Note: this only fires AFTER user stops focus on element
-    userInput.addEventListener("change", refreshButtonList);
+    // Note: this only fires AFTER guest stops focus on element
+    guestInput.addEventListener("change", refreshButtonList);
     // Note: this fires on EACH key up
-    userInput.addEventListener("keyup", refreshButtonList);
+    guestInput.addEventListener("keyup", refreshButtonList);
 
     searchButton.addEventListener("click", () => {
-        const userName = userInput.value;
+        const guestName = guestInput.value;
 
-        const userButtons = buttons.filter(x => x.userName == userName);
-        if (userButtons.length == 0) return;
+        const guestButtons = buttons.filter(x => x.displayName == guestName);
+        if (guestButtons.length == 0) return;
 
-        const tableSlug = userButtons[0].tableId;
-        window.location.href = `/e/${eventSlug}/t/${tableSlug}?userName=${userName}`
+        const tableSlug = guestButtons[0].tableId;
+        window.location.href = `/e/${eventSlug}/t/${tableSlug}?guestName=${guestName}`
     })
 
     function refreshButtonList() {
-        const inputValue = userInput.value;
+        const inputValue = guestInput.value;
         const lowercaseFilter = inputValue.toLowerCase();
 
         let shownElementCount = 0;
@@ -81,14 +81,14 @@ function main() {
             li.classList.remove("border-t");
 
             const showElement = matchFilter(
-                [button.userName, ...button.aliases],
+                [button.displayName, ...button.aliases],
                 lowercaseFilter,
             );
 
             if (showElement) {
                 shownElementCount++;
 
-                if (button.userName == inputValue)
+                if (button.displayName == inputValue)
                     isInputValue = true;
 
                 li.hidden = false;

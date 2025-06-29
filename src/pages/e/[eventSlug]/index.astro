@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../../../layouts/Layout.astro";
-import type { UserData } from "../../../scripts/UserData.ts";
+import { MOCK_EVENT } from "../../../scripts/config.ts";
 
 export const prerender = false;
 const { eventSlug } = Astro.params;
@@ -21,71 +21,11 @@ const { eventSlug } = Astro.params;
  * - but time consuming
  * - https://css-tricks.com/striking-a-balance-between-native-and-custom-select-elements/
  * - here is a good article about striking a balance between native and custom select elements
- * - for this particular use case, almost all users are guaranteed to be on mobile, so dont need to consider too much about keyboard navigation
+ * - for this particular use case, almost all guests are guaranteed to be on mobile, so dont need to consider too much about keyboard navigation
  * */
 
-const users: UserData[] = [
-    {
-        userName: "Apple",
-        aliases: ["the pretty one"],
-        tableId: "1",
-    },
-    {
-        userName: "Barry",
-        aliases: ["a cool kid"],
-        tableId: "2",
-    },
-    {
-        userName: "Charlie",
-        aliases: [],
-        tableId: "3",
-    },
-    {
-        userName: "🎤",
-        aliases: ["michael", "microphone", "mic@gmail.com"],
-        tableId: "4",
-    },
-    {
-        userName: "Charlie",
-        aliases: [],
-        tableId: "3",
-    },
-    {
-        userName: "Charlie",
-        aliases: [],
-        tableId: "3",
-    },
-    {
-        userName: "Charlie",
-        aliases: [],
-        tableId: "3",
-    },
-    {
-        userName: "Charlie",
-        aliases: [],
-        tableId: "3",
-    },
-    {
-        userName: "Charlie",
-        aliases: [],
-        tableId: "3",
-    },
-    {
-        userName: "Charlie",
-        aliases: [],
-        tableId: "3",
-    },
-    {
-        userName: "Charlie",
-        aliases: [],
-        tableId: "3",
-    },
-    {
-        userName: "Charlie",
-        aliases: [],
-        tableId: "3",
-    },
-];
+// TODO : get event config json file
+const guests = MOCK_EVENT.guests;
 ---
 
 <BaseLayout>
@@ -95,36 +35,36 @@ const users: UserData[] = [
         class="h-dvh p-4 flex flex-col gap-4"
     >
         <section class="flex flex-col gap-2">
-            <label for="user-name-input" class="font-bold">
+            <label for="guest-name-input" class="font-bold">
                 Welcome👋 What is your name?
             </label>
             <input
-                data-user-name-input
+                data-guest-name-input
                 type="text"
-                id="user-name-input"
+                id="guest-name-input"
                 class="border rounded-lg w-full py-2 px-1"
                 placeholder="Type your name here..."
             />
         </section>
         <section>
             <p
-                data-user-name-button-list-hint
+                data-guest-name-button-list-hint
                 class="text-center text-neutral-500/80"
             >
             </p>
         </section>
         <section class="flex-grow min-h-0 overflow-scroll flex flex-col gap-2">
-            <div hidden data-user-name-button-list>
+            <div hidden data-guest-name-button-list>
                 <ul class="flex flex-col border rounded-lg">
                     {
-                        users.map((user) => (
+                        guests.map((guest) => (
                             <li class="border-t">
                                 <button
-                                    data-user-name-button
-                                    data-user={JSON.stringify(user)}
+                                    data-guest-name-button
+                                    data-guest={JSON.stringify(guest)}
                                     class="px-2 py-4 w-full cursor-pointer text-start"
                                 >
-                                    {user.userName}
+                                    {guest.displayName}
                                 </button>
                             </li>
                         ))
@@ -141,7 +81,7 @@ const users: UserData[] = [
         </section>
         <section>
             <p
-                data-user-name-button-list-bottom-hint
+                data-guest-name-button-list-bottom-hint
                 hidden
                 class="text-center text-neutral-500/80"
             >

@@ -4,7 +4,7 @@ import { Image } from "astro:assets";
 
 export const prerender = false;
 const { eventSlug, tableSlug } = Astro.params;
-const userName = Astro.url.searchParams.get("userName");
+const guestName = Astro.url.searchParams.get("guestName");
 
 const imageURL =
     "https://f005.backblazeb2.com/file/img-gjt-io/mew+wallpaper.png";
@@ -13,7 +13,7 @@ const imageURL =
 <BaseLayout>
     <div class="h-dvh p-4 bg-pink-100 flex flex-col">
         <section class="flex justify-center">
-            <p>welcome {userName}</p>
+            <p>welcome {guestName}</p>
         </section>
         <section class="grow flex flex-col justify-center items-center">
             <Image
