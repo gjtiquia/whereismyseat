@@ -120,86 +120,6 @@ const users: UserData[] = [
         aliases: [],
         tableId: "3",
     },
-    {
-        userName: "Charlie",
-        aliases: [],
-        tableId: "3",
-    },
-    {
-        userName: "Charlie",
-        aliases: [],
-        tableId: "3",
-    },
-    {
-        userName: "Charlie",
-        aliases: [],
-        tableId: "3",
-    },
-    {
-        userName: "Charlie",
-        aliases: [],
-        tableId: "3",
-    },
-    {
-        userName: "Charlie",
-        aliases: [],
-        tableId: "3",
-    },
-    {
-        userName: "Charlie",
-        aliases: [],
-        tableId: "3",
-    },
-    {
-        userName: "Charlie",
-        aliases: [],
-        tableId: "3",
-    },
-    {
-        userName: "Charlie",
-        aliases: [],
-        tableId: "3",
-    },
-    {
-        userName: "Charlie",
-        aliases: [],
-        tableId: "3",
-    },
-    {
-        userName: "Charlie",
-        aliases: [],
-        tableId: "3",
-    },
-    {
-        userName: "Charlie",
-        aliases: [],
-        tableId: "3",
-    },
-    {
-        userName: "Charlie",
-        aliases: [],
-        tableId: "3",
-    },
-    {
-        userName: "Charlie",
-        aliases: [],
-        tableId: "3",
-    },
-    {
-        userName: "Charlie",
-        aliases: [],
-        tableId: "3",
-    },
-    {
-        userName: "Charlie",
-        aliases: [],
-        tableId: "3",
-    },
-    {
-        userName: "Charlie",
-        aliases: [],
-        tableId: "3",
-    },
 ];
 ---
 
@@ -221,13 +141,15 @@ const users: UserData[] = [
                 placeholder="Type your name here..."
             />
         </section>
+        <section>
+            <p
+                data-user-name-button-list-hint
+                class="text-center text-neutral-500/80"
+            >
+            </p>
+        </section>
         <section class="flex-grow min-h-0 overflow-scroll flex flex-col gap-2">
             <div hidden data-user-name-button-list>
-                <p
-                    data-user-name-button-list-hint
-                    class="text-center pb-2 text-neutral-500/80"
-                >
-                </p>
                 <ul class="flex flex-col border rounded-lg">
                     {
                         users.map((user) => (
@@ -244,13 +166,6 @@ const users: UserData[] = [
                     }
                 </ul>
             </div>
-            <p
-                data-cannot-find-user-hint
-                hidden
-                class="px-2 py-4 border rounded-lg text-red-500"
-            >
-                Sorry I cannot find your name. Please type again.
-            </p>
             <button
                 data-search-button
                 hidden
@@ -258,6 +173,14 @@ const users: UserData[] = [
             >
                 Search
             </button>
+        </section>
+        <section>
+            <p
+                data-user-name-button-list-bottom-hint
+                class="text-center text-neutral-500/80"
+            >
+                ( Scroll down to look for your name )
+            </p>
         </section>
         <section class="flex justify-center">
             <a>whereismyseat.gjt.io</a>

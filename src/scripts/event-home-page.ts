@@ -1,3 +1,4 @@
+import { isRenderInstance } from "astro/runtime/server/render/common.js";
 import type { UserData } from "./UserData";
 
 main();
@@ -25,9 +26,9 @@ function main() {
         "[data-user-name-button-list-hint]",
     ) as HTMLParagraphElement
 
-    const cannotFindUserHint = eventHomePage.querySelector(
-        "[data-cannot-find-user-hint]",
-    ) as HTMLElement;
+    const buttonListBottomHint = eventHomePage.querySelector(
+        "[data-user-name-button-list-bottom-hint]",
+    ) as HTMLParagraphElement
 
     const searchButton = eventHomePage.querySelector(
         "[data-search-button]"
@@ -68,10 +69,6 @@ function main() {
 
     function refreshButtonList() {
         const inputValue = userInput.value;
-
-        buttonListHint.textContent = "👇 Find and click your name below 👇"
-        if (inputValue == "") buttonListHint.textContent = "👇 ...or find and click your name below 👇"
-
         const lowercaseFilter = inputValue.toLowerCase();
 
         let shownElementCount = 0;
@@ -105,9 +102,17 @@ function main() {
             }
         }
 
-        buttonList.hidden = shownElementCount == 0 || (shownElementCount == 1 && isInputValue);
-        cannotFindUserHint.hidden = shownElementCount != 0;
-        searchButton.hidden = !(shownElementCount == 1 && isInputValue);
+        const noSearchResults = shownElementCount == 0;
+        const foundExactMatch = shownElementCount == 1 && isInputValue;
+
+        buttonListHint.textContent = "👇 Find and click your name below 👇"
+        if (inputValue == "") buttonListHint.textContent = "👇 ...or find and click your name below 👇"
+        if (noSearchResults) buttonListHint.textContent = "Sorry I couldn't find your name🥺 Can you type again?🙏"
+        if (foundExactMatch) buttonListHint.textContent = "👇 Click the button below to find your seat! 👇"
+
+        buttonList.hidden = noSearchResults || foundExactMatch;
+        searchButton.hidden = !foundExactMatch;
+        buttonListBottomHint.hidden = noSearchResults || foundExactMatch || shownElementCount < 10;
     }
 
     // refresh on load to update the border-t
