@@ -47,6 +47,9 @@ convert NodeList to Array
 fix astro dev server not running on termux proot ubuntu
 - https://github.com/termux/termux-packages/issues/10868#issuecomment-2716706060
 
+get image url from public shared photo in Google Photos
+- https://www.reddit.com/r/ObsidianMD/comments/13n20uh/comment/mh473mg
+
 ## todo
 
 config file

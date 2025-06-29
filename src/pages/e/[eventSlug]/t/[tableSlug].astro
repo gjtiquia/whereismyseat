@@ -1,13 +1,35 @@
 ---
 import BaseLayout from "../../../../layouts/Layout.astro";
+import { Image } from "astro:assets";
 
 export const prerender = false;
 const { eventSlug, tableSlug } = Astro.params;
 const userName = Astro.url.searchParams.get("userName");
+
+const imageURL =
+    "https://lh3.googleusercontent.com/pw/AP1GczObVfvgbUD_7X44lIbbY5Eu0rMMzO5TO38C4fcCodL535Fu1CwB3s-UWbyCcJ8pYVusWbY8JHBu5q3Zt9YCHEdQsLX9b4zZyzt8aZLit6nDcM4XjFxps8_EhK4C_f7Y9KF8sgTNVsOpNq0LILprnwsIqw=w1376-h1032-s-no?authuser=0";
 ---
 
 <BaseLayout>
-    <p>Event Slug: {eventSlug}</p>
-    <p>Table Slug: {tableSlug}</p>
-    <p>userName: {userName}</p>
+    <div class="h-dvh p-4 bg-pink-100 flex flex-col">
+        <section class="flex justify-center">
+            <p>welcome {userName}</p>
+        </section>
+        <section class="grow flex flex-col justify-center items-center">
+            <Image
+                src={imageURL}
+                alt={"image for table " + tableSlug}
+                width="1000"
+                height="1000"
+                class="p-4 bg-white rounded-lg"
+            />
+        </section>
+        <section class="w-full flex justify-center">
+            <a
+                href=`/e/${eventSlug}`
+                class="font-bold text-red-500/40 border-2 rounded-lg px-16 py-2"
+                >Back</a
+            >
+        </section>
+    </div>
 </BaseLayout>
