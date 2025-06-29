@@ -49,6 +49,7 @@ fix astro dev server not running on termux proot ubuntu
 
 get image url from public shared photo in Google Photos
 - https://www.reddit.com/r/ObsidianMD/comments/13n20uh/comment/mh473mg
+- (but you will get rate limited, unstable)
 
 ## todo
 

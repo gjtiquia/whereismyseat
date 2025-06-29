@@ -104,6 +104,7 @@ function main() {
 
         const noSearchResults = shownElementCount == 0;
         const foundExactMatch = shownElementCount == 1 && isInputValue;
+        const isScrollable = shownElementCount >= 9; // based on iPhone SE. should be dynamic lol TODO :
 
         buttonListHint.textContent = "👇 Find and click your name below 👇"
         if (inputValue == "") buttonListHint.textContent = "👇 ...or find and click your name below 👇"
@@ -112,7 +113,7 @@ function main() {
 
         buttonList.hidden = noSearchResults || foundExactMatch;
         searchButton.hidden = !foundExactMatch;
-        buttonListBottomHint.hidden = noSearchResults || foundExactMatch || shownElementCount < 10;
+        buttonListBottomHint.hidden = noSearchResults || foundExactMatch || !isScrollable;
     }
 
     // refresh on load to update the border-t
