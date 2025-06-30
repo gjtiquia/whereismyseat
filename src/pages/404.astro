@@ -6,20 +6,78 @@ import NotFoundImage from "../images/Kawaii404NotFound.png";
 
 <BaseLayout>
     <div
-        class="bg-neutral-900 h-dvh p-2 flex flex-col justify-center items-center"
+        class="min-h-dvh bg-gradient-to-br from-rose-50 via-orange-50 to-stone-50 p-4 flex flex-col justify-center items-center"
     >
-        <div class="grow"></div>
-        <Image
-            src={NotFoundImage}
-            alt="404 Not Found"
-            class="w-full max-w-4xl"
-        />
-        <div class="grow"></div>
-        <a
-            href="/"
-            class="mb-4 bg-neutral-700 border border-neutral-200 rounded-lg px-8 py-2 text-white font-bold"
-        >
-            Go Home
-        </a>
+        <!-- Decorative background elements -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div
+                class="absolute top-20 left-16 w-16 h-16 bg-rose-200/20 rounded-full blur-lg"
+            >
+            </div>
+            <div
+                class="absolute top-40 right-20 w-20 h-20 bg-sky-200/20 rounded-full blur-xl"
+            >
+            </div>
+            <div
+                class="absolute bottom-32 left-12 w-12 h-12 bg-orange-200/20 rounded-full blur-lg"
+            >
+            </div>
+            <div
+                class="absolute bottom-16 right-16 w-18 h-18 bg-emerald-200/20 rounded-full blur-xl"
+            >
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="relative z-10 max-w-lg w-full flex flex-col items-center">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <h1 class="font-serif text-3xl md:text-4xl text-stone-700 mb-4">
+                    Oops! Lost Your Way? 🤔
+                </h1>
+                <p class="text-stone-500 text-lg leading-relaxed">
+                    Looks like this page wandered off to the dance floor! <br />
+                    Let's get you back to the celebration 💃
+                </p>
+            </div>
+
+            <!-- 404 Illustration -->
+            <div
+                class="mb-8 bg-white/60 backdrop-blur-sm rounded-3xl p-6 shadow-lg"
+            >
+                <Image
+                    src={NotFoundImage}
+                    alt="404 Not Found"
+                    class="w-full max-w-xs mx-auto"
+                />
+            </div>
+
+            <!-- Navigation buttons -->
+            <div class="flex flex-col gap-4 w-full max-w-sm">
+                <a
+                    href="/"
+                    class="bg-gradient-to-r from-emerald-400 to-emerald-500 hover:from-emerald-500 hover:to-emerald-600 text-white font-semibold text-lg py-4 px-8 rounded-2xl text-center transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg hover:shadow-xl"
+                >
+                    Take Me Home 🏠
+                </a>
+
+                <button
+                    onclick="history.back()"
+                    class="bg-white/70 backdrop-blur-sm border-2 border-stone-200 hover:border-stone-300 text-stone-600 font-semibold text-lg py-4 px-8 rounded-2xl text-center transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-md hover:shadow-lg"
+                >
+                    Go Back ⬅️
+                </button>
+            </div>
+
+            <!-- Footer message -->
+            <div class="text-center mt-8">
+                <p class="text-stone-400 text-sm">
+                    Still having trouble? <br />
+                    <span class="text-stone-500 font-medium"
+                        >We're here to help! 💕</span
+                    >
+                </p>
+            </div>
+        </div>
     </div>
 </BaseLayout>

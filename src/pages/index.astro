@@ -3,45 +3,142 @@ import BaseLayout from "../layouts/Layout.astro";
 ---
 
 <BaseLayout>
-    <div class="h-dvh p-2 flex flex-col justify-center items-center">
-        <section>
-            <h1 class="font-bold text-2xl mb-12">where is my seat</h1>
-        </section>
-
-        <section class="flex flex-col gap-2 items-center">
-            <label for="invite-code-input" class="cursor-pointer">
-                Invite Code
-            </label>
-            <input
-                data-invite-code-input
-                id="invite-code-input"
-                type="text"
-                class="border rounded-lg px-1 py-2"
-            />
-            <a
-                data-invite-anchor
-                href=`/invite`
-                class="bg-neutral-800 px-16 py-2 text-white font-bold rounded-lg cursor-pointer"
+    <div
+        class="min-h-dvh bg-gradient-to-br from-orange-50 via-rose-50 to-stone-50 p-4 flex flex-col justify-center items-center"
+    >
+        <!-- Decorative background elements -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div
+                class="absolute top-10 left-10 w-20 h-20 bg-emerald-200/20 rounded-full blur-xl"
             >
-                Go
-            </a>
-            <script>
-                const inviteCodeInput = document.querySelector(
-                    "[data-invite-code-input]",
-                ) as HTMLInputElement;
+            </div>
+            <div
+                class="absolute top-32 right-16 w-16 h-16 bg-sky-200/20 rounded-full blur-lg"
+            >
+            </div>
+            <div
+                class="absolute bottom-20 left-20 w-24 h-24 bg-orange-200/20 rounded-full blur-xl"
+            >
+            </div>
+            <div
+                class="absolute bottom-32 right-10 w-12 h-12 bg-rose-200/20 rounded-full blur-lg"
+            >
+            </div>
+        </div>
 
-                const inviteAnchor = document.querySelector(
-                    "[data-invite-anchor]",
-                ) as HTMLAnchorElement;
+        <!-- Main content -->
+        <div class="relative z-10 max-w-md w-full">
+            <!-- Header section -->
+            <section class="text-center mb-12">
+                <div class="mb-6">
+                    <div class="text-6xl mb-4">💍</div>
+                    <h1
+                        class="font-serif text-4xl md:text-5xl mb-4 text-stone-700 leading-tight"
+                    >
+                        Where Is My Seat
+                    </h1>
+                    <p
+                        class="text-stone-500 text-lg font-light leading-relaxed"
+                    >
+                        Find your place at our special celebration
+                    </p>
+                </div>
 
-                inviteCodeInput.addEventListener("keyup", updateAnchorLink);
-                inviteCodeInput.addEventListener("change", updateAnchorLink);
-                inviteAnchor.addEventListener("click", updateAnchorLink); // just in-case
+                <!-- Decorative divider -->
+                <div class="flex items-center justify-center mb-8">
+                    <div class="w-8 h-px bg-stone-300"></div>
+                    <div class="mx-3 text-stone-400">✨</div>
+                    <div class="w-8 h-px bg-stone-300"></div>
+                </div>
+            </section>
 
-                function updateAnchorLink() {
-                    inviteAnchor.href = `/invite/${inviteCodeInput.value}`;
+            <!-- Input section -->
+            <section class="space-y-6">
+                <div class="text-center">
+                    <label
+                        for="invite-code-input"
+                        class="block text-stone-600 font-medium text-lg mb-3 cursor-pointer"
+                    >
+                        Enter Your Invite Code
+                    </label>
+                    <p class="text-stone-400 text-sm mb-6">
+                        Your unique code was included with your invitation 💌
+                    </p>
+                </div>
+
+                <div class="space-y-4">
+                    <input
+                        data-invite-code-input
+                        id="invite-code-input"
+                        type="text"
+                        placeholder="ABC123"
+                        class="w-full border-2 border-stone-200 rounded-2xl px-6 py-4 text-center text-lg font-medium bg-white/70 backdrop-blur-sm focus:border-emerald-300 focus:ring-4 focus:ring-emerald-100 focus:outline-none transition-all duration-200 placeholder-stone-400"
+                    />
+
+                    <button
+                        data-invite-anchor
+                        class="w-full bg-gradient-to-r from-emerald-400 to-emerald-500 hover:from-emerald-500 hover:to-emerald-600 px-8 py-4 text-white font-semibold text-lg rounded-2xl cursor-pointer transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg hover:shadow-xl"
+                    >
+                        Find My Seat ✨
+                    </button>
+                </div>
+            </section>
+
+            <!-- Footer section -->
+            <section class="text-center mt-12">
+                <p class="text-stone-400 text-sm">
+                    Can't find your invite code? <br />
+                    <span class="text-stone-500 font-medium"
+                        >Contact us and we'll help you out! 💕</span
+                    >
+                </p>
+            </section>
+        </div>
+
+        <script>
+            const inviteCodeInput = document.querySelector(
+                "[data-invite-code-input]",
+            ) as HTMLInputElement;
+
+            const inviteButton = document.querySelector(
+                "[data-invite-anchor]",
+            ) as HTMLButtonElement;
+
+            inviteCodeInput.addEventListener("keyup", updateButtonAction);
+            inviteCodeInput.addEventListener("change", updateButtonAction);
+            inviteCodeInput.addEventListener("keypress", (e) => {
+                if (e.key === "Enter") {
+                    navigateToInvite();
                 }
-            </script>
-        </section>
+            });
+            inviteButton.addEventListener("click", navigateToInvite);
+
+            function updateButtonAction() {
+                // Update button state based on input
+                if (inviteCodeInput.value.trim()) {
+                    inviteButton.classList.remove(
+                        "opacity-50",
+                        "cursor-not-allowed",
+                    );
+                    inviteButton.classList.add("cursor-pointer");
+                } else {
+                    inviteButton.classList.add(
+                        "opacity-50",
+                        "cursor-not-allowed",
+                    );
+                    inviteButton.classList.remove("cursor-pointer");
+                }
+            }
+
+            function navigateToInvite() {
+                const code = inviteCodeInput.value.trim();
+                if (code) {
+                    window.location.href = `/invite/${code}`;
+                }
+            }
+
+            // Initialize button state
+            updateButtonAction();
+        </script>
     </div>
 </BaseLayout>
