@@ -18,7 +18,7 @@ const tables = event.tables.filter((table) => table.tableId == tableSlug);
 if (tables.length == 0 || tables.length > 1)
     return new Response(null, {
         status: 404,
-        statusText: `cannot find event ${eventSlug}`,
+        statusText: `cannot find table ${tableSlug}`,
     });
 
 const table = tables[0];
