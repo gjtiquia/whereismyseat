@@ -1,13 +1,21 @@
 ---
 import BaseLayout from "../../../layouts/Layout.astro";
-import {
-    MOCK_EVENT,
-    type EventData,
-    type GuestData,
-} from "../../../scripts/config.ts";
+import type { EventData, GuestData } from "../../../scripts/config.ts";
+import { tryGetEventDataAsync } from "../../../scripts/db";
 
 export const prerender = false;
+
 const { eventSlug } = Astro.params;
+if (!eventSlug) return Astro.redirect("/");
+
+const event = await tryGetEventDataAsync(eventSlug);
+if (event == null)
+    return new Response(null, {
+        status: 404,
+        statusText: `Cannot find event ${eventSlug}`,
+    });
+
+const guests = event.guests;
 
 /*
  * ways to implement dropdown
@@ -27,28 +35,6 @@ const { eventSlug } = Astro.params;
  * - here is a good article about striking a balance between native and custom select elements
  * - for this particular use case, almost all guests are guaranteed to be on mobile, so dont need to consider too much about keyboard navigation
  * */
-
-const USE_MOCK_DATA = false;
-
-let guests: GuestData[] = [];
-if (USE_MOCK_DATA) {
-    guests = MOCK_EVENT.guests;
-} else {
-    const url = `https://f005.backblazeb2.com/file/s3-gjt-io/whereismyseat/${eventSlug}.json`;
-
-    const response = await fetch(url);
-    if (!response.ok) {
-        console.log("cannot find event", eventSlug);
-        // return Astro.redirect("/");
-        return new Response(null, {
-            status: 404,
-            statusText: `Cannot find event ${eventSlug}`,
-        });
-    }
-
-    const event: EventData = await response.json();
-    guests = event.guests;
-}
 ---
 
 <BaseLayout>

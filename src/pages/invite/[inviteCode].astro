@@ -1,6 +1,7 @@
 ---
 import { undefined } from "astro:schema";
 import type { GlobalData } from "../../scripts/config";
+import { tryGetGlobalDataAsync } from "../../scripts/db";
 
 export const prerender = false;
 
@@ -20,14 +21,9 @@ return Astro.redirect(`/e/${eventSlug}`);
 async function tryGetEventSlugAsync(
     inviteCode: string,
 ): Promise<string | null> {
-    const url = `https://f005.backblazeb2.com/file/s3-gjt-io/whereismyseat/global.json`;
-    const response = await fetch(url);
-    if (!response.ok) {
-        console.log("cannot find global");
-        return null;
-    }
+    const globalData = await tryGetGlobalDataAsync();
+    if (globalData == null) return null;
 
-    const globalData: GlobalData = await response.json();
     const eventSlugs = globalData.invites
         .filter((invite) => invite.inviteCode == inviteCode)
         .map((invite) => invite.eventSlug);

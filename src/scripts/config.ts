@@ -21,6 +21,7 @@ export type GuestData = {
 
 export type TableData = {
     tableId: string,
+    imageUrl: string,
 }
 
 export const MOCK_GLOBAL: GlobalData = {
@@ -97,11 +98,11 @@ export const MOCK_EVENT: EventData = {
         },
     ],
     "tables": [
-        { "tableId": "1" },
-        { "tableId": "2" },
-        { "tableId": "3" },
-        { "tableId": "4" },
-        { "tableId": "5" },
-        { "tableId": "6" },
+        { "tableId": "1", "imageUrl": "https://f005.backblazeb2.com/file/img-gjt-io/mew+wallpaper.png" },
+        { "tableId": "2", "imageUrl": "https://f005.backblazeb2.com/file/img-gjt-io/mew+wallpaper.png" },
+        { "tableId": "3", "imageUrl": "https://f005.backblazeb2.com/file/img-gjt-io/mew+wallpaper.png" },
+        { "tableId": "4", "imageUrl": "https://f005.backblazeb2.com/file/img-gjt-io/mew+wallpaper.png" },
+        { "tableId": "5", "imageUrl": "https://f005.backblazeb2.com/file/img-gjt-io/mew+wallpaper.png" },
+        { "tableId": "6", "imageUrl": "https://f005.backblazeb2.com/file/img-gjt-io/mew+wallpaper.png" },
     ]
 }

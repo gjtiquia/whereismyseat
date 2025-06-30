@@ -1,13 +1,28 @@
 ---
 import BaseLayout from "../../../../layouts/Layout.astro";
 import { Image } from "astro:assets";
+import { tryGetEventDataAsync } from "../../../../scripts/db";
 
 export const prerender = false;
 const { eventSlug, tableSlug } = Astro.params;
 const guestName = Astro.url.searchParams.get("guestName");
 
-const imageURL =
-    "https://f005.backblazeb2.com/file/img-gjt-io/mew+wallpaper.png";
+const event = await tryGetEventDataAsync(eventSlug!);
+if (event == null)
+    return new Response(null, {
+        status: 404,
+        statusText: `cannot find event ${eventSlug}`,
+    });
+
+const tables = event.tables.filter((table) => table.tableId == tableSlug);
+if (tables.length == 0 || tables.length > 1)
+    return new Response(null, {
+        status: 404,
+        statusText: `cannot find event ${eventSlug}`,
+    });
+
+const table = tables[0];
+const imageURL = table.imageUrl;
 ---
 
 <BaseLayout>
