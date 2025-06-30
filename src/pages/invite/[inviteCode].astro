@@ -1,21 +1,39 @@
 ---
+import { undefined } from "astro:schema";
+import type { GlobalData } from "../../scripts/config";
+
 export const prerender = false;
 
 const { inviteCode } = Astro.params;
 
-const eventSlug = tryGetEventSlug(inviteCode);
+if (!inviteCode) return Astro.redirect(`/e/${eventSlug}`);
+
+const eventSlug = await tryGetEventSlugAsync(inviteCode);
 if (eventSlug == null)
     return new Response(null, {
         status: 404,
-        statusText: `Cannot find event ${eventSlug}`,
+        statusText: `Cannot find invite code ${inviteCode}`,
     });
 
 return Astro.redirect(`/e/${eventSlug}`);
 
-function tryGetEventSlug(inviteCode: string): string | null {
-    // hardcoded for testing
-    if (inviteCode == "TEST25") return "test-event";
+async function tryGetEventSlugAsync(
+    inviteCode: string,
+): Promise<string | null> {
+    const url = `https://f005.backblazeb2.com/file/s3-gjt-io/whereismyseat/global.json`;
+    const response = await fetch(url);
+    if (!response.ok) {
+        console.log("cannot find global");
+        return null;
+    }
 
-    return null;
+    const globalData: GlobalData = await response.json();
+    const eventSlugs = globalData.invites
+        .filter((invite) => invite.inviteCode == inviteCode)
+        .map((invite) => invite.eventSlug);
+
+    if (eventSlugs.length == 0 || eventSlugs.length > 1) return null;
+
+    return eventSlugs[0];
 }
 ---

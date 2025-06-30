@@ -1,3 +1,12 @@
+export type GlobalData = {
+    invites: InviteData[],
+}
+
+export type InviteData = {
+    inviteCode: string,
+    eventSlug: string,
+}
+
 export type EventData = {
     eventSlug: string,
     guests: GuestData[],
@@ -12,6 +21,15 @@ export type GuestData = {
 
 export type TableData = {
     tableId: string,
+}
+
+export const MOCK_GLOBAL: GlobalData = {
+    "invites": [
+        {
+            "inviteCode": "TEST25",
+            "eventSlug": "test-event"
+        }
+    ]
 }
 
 export const MOCK_EVENT: EventData = {
