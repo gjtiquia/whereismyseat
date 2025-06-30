@@ -3,7 +3,45 @@ import BaseLayout from "../layouts/Layout.astro";
 ---
 
 <BaseLayout>
-    <div class="p-2">
-        <h1>HOME PAGE</h1>
+    <div class="h-dvh p-2 flex flex-col justify-center items-center">
+        <section>
+            <h1 class="font-bold text-2xl mb-12">where is my seat</h1>
+        </section>
+
+        <section class="flex flex-col gap-2 items-center">
+            <label for="invite-code-input" class="cursor-pointer">
+                Invite Code
+            </label>
+            <input
+                data-invite-code-input
+                id="invite-code-input"
+                type="text"
+                class="border rounded-lg px-1 py-2"
+            />
+            <a
+                data-invite-anchor
+                href=`/invite`
+                class="bg-neutral-800 px-16 py-2 text-white font-bold rounded-lg cursor-pointer"
+            >
+                Go
+            </a>
+            <script>
+                const inviteCodeInput = document.querySelector(
+                    "[data-invite-code-input]",
+                ) as HTMLInputElement;
+
+                const inviteAnchor = document.querySelector(
+                    "[data-invite-anchor]",
+                ) as HTMLAnchorElement;
+
+                inviteCodeInput.addEventListener("keyup", updateAnchorLink);
+                inviteCodeInput.addEventListener("change", updateAnchorLink);
+                inviteAnchor.addEventListener("click", updateAnchorLink); // just in-case
+
+                function updateAnchorLink() {
+                    inviteAnchor.href = `/invite/${inviteCodeInput.value}`;
+                }
+            </script>
+        </section>
     </div>
 </BaseLayout>

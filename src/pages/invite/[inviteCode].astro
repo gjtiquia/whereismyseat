@@ -1,0 +1,21 @@
+---
+export const prerender = false;
+
+const { inviteCode } = Astro.params;
+
+const eventSlug = tryGetEventSlug(inviteCode);
+if (eventSlug == null)
+    return new Response(null, {
+        status: 404,
+        statusText: `Cannot find event ${eventSlug}`,
+    });
+
+return Astro.redirect(`/e/${eventSlug}`);
+
+function tryGetEventSlug(inviteCode: string): string | null {
+    // hardcoded for testing
+    if (inviteCode == "TEST25") return "test-event";
+
+    return null;
+}
+---
