@@ -51,6 +51,22 @@ get image url from public shared photo in Google Photos
 - https://www.reddit.com/r/ObsidianMD/comments/13n20uh/comment/mh473mg
 - (but you will get rate limited, unstable)
 
+## troubleshooting
+
+you may encounter the following error
+
+```
+MissingSharp: Could not find Sharp. Please install Sharp (`sharp`) manually into your project or migrate to another image service.
+```
+
+if so, download `sharp` manually via
+
+```bash
+pnpm add sharp
+```
+
+https://docs.astro.build/en/guides/images/#default-image-service
+
 ## todo
 
 config file

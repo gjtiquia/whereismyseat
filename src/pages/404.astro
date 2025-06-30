@@ -1,0 +1,25 @@
+---
+import BaseLayout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import NotFoundImage from "../images/Kawaii404NotFound.png";
+---
+
+<BaseLayout>
+    <div
+        class="bg-neutral-900 h-dvh p-2 flex flex-col justify-center items-center"
+    >
+        <div class="grow"></div>
+        <Image
+            src={NotFoundImage}
+            alt="404 Not Found"
+            class="w-full max-w-4xl"
+        />
+        <div class="grow"></div>
+        <a
+            href="/"
+            class="mb-4 bg-neutral-700 border border-neutral-200 rounded-lg px-8 py-2 text-white font-bold"
+        >
+            Go Home
+        </a>
+    </div>
+</BaseLayout>

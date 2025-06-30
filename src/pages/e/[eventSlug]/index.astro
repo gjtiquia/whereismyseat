@@ -38,8 +38,12 @@ if (USE_MOCK_DATA) {
 
     const response = await fetch(url);
     if (!response.ok) {
-        // TODO : error 404, redirect
-        console.log("cannot find event");
+        console.log("cannot find event", eventSlug);
+        // return Astro.redirect("/");
+        return new Response(null, {
+            status: 404,
+            statusText: `Cannot find event ${eventSlug}`,
+        });
     }
 
     const event: EventData = await response.json();
