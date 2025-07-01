@@ -88,10 +88,10 @@ const tableDisplayName = table.tableDisplayName;
                 </a>
 
                 <a
-                    href="/"
-                    class="flex-1 bg-gradient-to-r from-emerald-400 to-emerald-500 hover:from-emerald-500 hover:to-emerald-600 text-white font-semibold text-sm py-3 px-4 rounded-2xl text-center transition-all duration-200 shadow-lg hover:shadow-xl"
+                    href={`/e/${eventSlug}/seating-plan?tableSlug=${tableSlug}${guestName ? `&guestName=${encodeURIComponent(guestName)}` : ''}`}
+                    class="flex-1 bg-white/70 backdrop-blur-sm border-2 border-stone-200 hover:border-stone-300 text-stone-600 font-semibold text-sm py-3 px-4 rounded-2xl text-center transition-all duration-200 shadow-md hover:shadow-lg"
                 >
-                    Home 🏠
+                    🪑 Seating Plan
                 </a>
             </section>
 

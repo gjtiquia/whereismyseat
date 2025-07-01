@@ -5,6 +5,8 @@ import { tryGetEventDataAsync } from "../../../scripts/db";
 
 export const prerender = false;
 const { eventSlug } = Astro.params;
+const tableSlug = Astro.url.searchParams.get("tableSlug");
+const guestName = Astro.url.searchParams.get("guestName");
 
 const event = await tryGetEventDataAsync(eventSlug!);
 if (event == null)
@@ -20,6 +22,15 @@ if (!event.seatingPlanImageUrl)
     });
 
 const imageURL = event.seatingPlanImageUrl;
+
+// Determine back URL based on tableSlug and guestName parameters
+let backUrl = `/e/${eventSlug}`; // Default to guest list
+if (tableSlug) {
+    backUrl = `/e/${eventSlug}/t/${tableSlug}`;
+    if (guestName) {
+        backUrl += `?guestName=${encodeURIComponent(guestName)}`;
+    }
+}
 ---
 
 <BaseLayout>
@@ -48,7 +59,7 @@ const imageURL = event.seatingPlanImageUrl;
         <!-- Back button at bottom -->
         <div class="p-4 flex justify-center">
             <a
-                href=`/e/${eventSlug}`
+                href={backUrl}
                 class="bg-white/70 backdrop-blur-sm border-2 border-stone-200 hover:border-stone-300 text-stone-600 font-semibold text-sm py-3 px-6 rounded-2xl transition-all duration-200 shadow-md hover:shadow-lg"
             >
                 ⬅️ Back
