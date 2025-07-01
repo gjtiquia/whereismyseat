@@ -48,7 +48,15 @@ Production data is stored on Backblaze B2:
 - Global data: `https://f005.backblazeb2.com/file/s3-gjt-io/whereismyseat/global.json`
 - Event data: `https://f005.backblazeb2.com/file/s3-gjt-io/whereismyseat/{eventSlug}.json`
 
-Local development can use files in the `data/` directory.
+Local development can use files in the `data/` directory:
+- `data/global.json` - Contains invite codes mapping to event slugs
+- `data/test-event.json` - Sample event data for local testing
+
+These JSON files follow the TypeScript schemas defined in `src/scripts/config.ts`:
+- `GlobalData` - Contains array of `InviteData` (inviteCode → eventSlug mapping)
+- `EventData` - Contains eventSlug, array of `GuestData`, and array of `TableData`
+- `GuestData` - Contains displayName, aliases array, and tableId
+- `TableData` - Contains tableId and imageUrl
 
 ## Development Notes
 
