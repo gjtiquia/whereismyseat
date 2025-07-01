@@ -21,6 +21,8 @@ export type GuestData = {
 
 export type TableData = {
     tableId: string,
+    tableSlug: string,
+    tableDisplayName: string,
     imageUrl: string,
 }
 
@@ -98,11 +100,11 @@ export const MOCK_EVENT: EventData = {
         },
     ],
     "tables": [
-        { "tableId": "1", "imageUrl": "https://f005.backblazeb2.com/file/img-gjt-io/mew+wallpaper.png" },
-        { "tableId": "2", "imageUrl": "https://f005.backblazeb2.com/file/img-gjt-io/mew+wallpaper.png" },
-        { "tableId": "3", "imageUrl": "https://f005.backblazeb2.com/file/img-gjt-io/mew+wallpaper.png" },
-        { "tableId": "4", "imageUrl": "https://f005.backblazeb2.com/file/img-gjt-io/mew+wallpaper.png" },
-        { "tableId": "5", "imageUrl": "https://f005.backblazeb2.com/file/img-gjt-io/mew+wallpaper.png" },
-        { "tableId": "6", "imageUrl": "https://f005.backblazeb2.com/file/img-gjt-io/mew+wallpaper.png" },
+        { "tableId": "1", "tableSlug": "table-1", "tableDisplayName": "Table 1", "imageUrl": "https://f005.backblazeb2.com/file/img-gjt-io/mew+wallpaper.png" },
+        { "tableId": "2", "tableSlug": "table-2", "tableDisplayName": "Table 2", "imageUrl": "https://f005.backblazeb2.com/file/img-gjt-io/mew+wallpaper.png" },
+        { "tableId": "3", "tableSlug": "table-3", "tableDisplayName": "Table 3", "imageUrl": "https://f005.backblazeb2.com/file/img-gjt-io/mew+wallpaper.png" },
+        { "tableId": "4", "tableSlug": "table-4", "tableDisplayName": "Table 4", "imageUrl": "https://f005.backblazeb2.com/file/img-gjt-io/mew+wallpaper.png" },
+        { "tableId": "5", "tableSlug": "table-5", "tableDisplayName": "Table 5", "imageUrl": "https://f005.backblazeb2.com/file/img-gjt-io/mew+wallpaper.png" },
+        { "tableId": "6", "tableSlug": "table-6", "tableDisplayName": "Table 6", "imageUrl": "https://f005.backblazeb2.com/file/img-gjt-io/mew+wallpaper.png" },
     ]
 }

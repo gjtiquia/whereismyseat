@@ -14,7 +14,7 @@ if (event == null)
         statusText: `cannot find event ${eventSlug}`,
     });
 
-const tables = event.tables.filter((table) => table.tableId == tableSlug);
+const tables = event.tables.filter((table) => table.tableSlug == tableSlug);
 if (tables.length == 0 || tables.length > 1)
     return new Response(null, {
         status: 404,
@@ -23,6 +23,7 @@ if (tables.length == 0 || tables.length > 1)
 
 const table = tables[0];
 const imageURL = table.imageUrl;
+const tableDisplayName = table.tableDisplayName;
 ---
 
 <BaseLayout>
@@ -53,7 +54,7 @@ const imageURL = table.imageUrl;
                 >
                     <div class="mb-2 text-center">
                         <h2 class="text-xl font-semibold text-stone-700">
-                            Table {tableSlug}
+                            {tableDisplayName}
                         </h2>
                     </div>
 
@@ -62,7 +63,7 @@ const imageURL = table.imageUrl;
                     >
                         <Image
                             src={imageURL}
-                            alt={"Seating arrangement for table " + tableSlug}
+                            alt={"Seating arrangement for " + tableDisplayName}
                             width="1000"
                             height="1000"
                             class="w-auto h-full rounded-xl object-contain"

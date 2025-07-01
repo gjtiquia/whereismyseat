@@ -1,4 +1,4 @@
-import type { GuestData } from "./config";
+import type { GuestData, TableData } from "./config";
 
 main();
 function main() {
@@ -12,6 +12,7 @@ function main() {
     }
 
     const eventSlug = eventHomePage.dataset.eventSlug as string;
+    const tables: TableData[] = JSON.parse(eventHomePage.dataset.tables as string);
 
     const guestInput = eventHomePage.querySelector(
         "[data-guest-name-input]",
@@ -59,8 +60,15 @@ function main() {
         const guestButtons = buttons.filter(x => x.displayName == guestName);
         if (guestButtons.length == 0) return;
 
-        const tableSlug = guestButtons[0].tableId;
-        window.location.href = `/e/${eventSlug}/t/${tableSlug}?guestName=${guestName}`
+        const tableId = guestButtons[0].tableId;
+        const filteredTables = tables.filter(t => t.tableId === tableId);
+        if (filteredTables.length == 0 || filteredTables.length > 1) {
+            console.error(`Cannot find table with id ${tableId}`);
+            return;
+        }
+
+        const targetTable = filteredTables[0];
+        window.location.href = `/e/${eventSlug}/t/${targetTable.tableSlug}?guestName=${guestName}`
     })
 
     function refreshButtonList() {
