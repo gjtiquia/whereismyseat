@@ -107,7 +107,7 @@ function main() {
         }
 
         const noSearchResults = shownElementCount == 0;
-        const foundExactMatch = shownElementCount == 1 && isInputValue;
+        const foundExactMatch = isInputValue;
 
         buttonListHint.textContent = "👇 Find and click your name below 👇"
         if (inputValue == "") buttonListHint.textContent = "👇 ...or find and click your name below 👇"
