@@ -40,18 +40,24 @@ if (tableSlug) {
         <!-- Full-screen image container -->
         <div class="flex-grow flex justify-center items-center p-4 min-h-0">
             <div
-                class="bg-white/70 backdrop-blur-sm rounded-3xl p-2 shadow-xl border border-white/30 max-w-full max-h-full flex flex-col"
+                class="bg-white/70 backdrop-blur-sm rounded-3xl p-4 shadow-xl border border-white/30 max-w-full max-h-full flex flex-col"
             >
                 <div
-                    class="bg-white rounded-2xl p-1 shadow-inner flex justify-center items-center"
+                    class="bg-white rounded-2xl p-2 shadow-inner flex-grow flex justify-center items-center"
                 >
                     <Image
                         src={imageURL}
                         alt="Seating plan"
                         width="2000"
                         height="2000"
-                        class="max-w-full max-h-full w-auto h-auto rounded-xl object-contain"
+                        class="w-auto h-full rounded-xl object-contain"
                     />
+                </div>
+
+                <div class="mt-2 text-center">
+                    <p class="text-stone-600 text-xs">
+                        Take a screenshot to save this for later! 📸
+                    </p>
                 </div>
             </div>
         </div>

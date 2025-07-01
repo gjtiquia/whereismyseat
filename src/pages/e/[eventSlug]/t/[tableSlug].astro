@@ -4,6 +4,7 @@ import { Image } from "astro:assets";
 import { tryGetEventDataAsync } from "../../../../scripts/db";
 
 export const prerender = false;
+
 const { eventSlug, tableSlug } = Astro.params;
 const guestName = Astro.url.searchParams.get("guestName");
 
@@ -88,7 +89,7 @@ const tableDisplayName = table.tableDisplayName;
                 </a>
 
                 <a
-                    href={`/e/${eventSlug}/seating-plan?tableSlug=${tableSlug}${guestName ? `&guestName=${encodeURIComponent(guestName)}` : ''}`}
+                    href={`/e/${eventSlug}/seating-plan?tableSlug=${tableSlug}${guestName ? `&guestName=${encodeURIComponent(guestName)}` : ""}`}
                     class="flex-1 bg-white/70 backdrop-blur-sm border-2 border-stone-200 hover:border-stone-300 text-stone-600 font-semibold text-sm py-3 px-4 rounded-2xl text-center transition-all duration-200 shadow-md hover:shadow-lg"
                 >
                     🪑 Seating Plan
@@ -105,3 +106,4 @@ const tableDisplayName = table.tableDisplayName;
         </div>
     </div>
 </BaseLayout>
+
