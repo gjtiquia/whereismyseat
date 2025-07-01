@@ -15,7 +15,9 @@ if (event == null)
         statusText: `Cannot find event ${eventSlug}`,
     });
 
-const guests = event.guests;
+const guests = event.guests.sort((a, b) => 
+    a.displayName.localeCompare(b.displayName)
+);
 
 /*
  * ways to implement dropdown
