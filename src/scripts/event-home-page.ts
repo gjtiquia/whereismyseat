@@ -103,7 +103,7 @@ function main() {
 
         buttonListHint.textContent = "👇 Find and click your name below 👇"
         if (inputValue == "") buttonListHint.textContent = "👇 ...or find and click your name below 👇"
-        if (noSearchResults) buttonListHint.textContent = "Sorry I couldn't find your name🥺 Can you type again?🙏"
+        if (noSearchResults) buttonListHint.textContent = "Sorry I can't find your name🥺 Can you type again?🙏"
         if (foundExactMatch) buttonListHint.textContent = "👇 Click the button below to find your seat! 👇"
 
         buttonList.hidden = noSearchResults || foundExactMatch;
