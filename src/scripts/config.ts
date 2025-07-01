@@ -11,6 +11,7 @@ export type EventData = {
     eventSlug: string,
     guests: GuestData[],
     tables: TableData[],
+    seatingPlanImageUrl: string,
 }
 
 export type GuestData = {
@@ -37,6 +38,7 @@ export const MOCK_GLOBAL: GlobalData = {
 
 export const MOCK_EVENT: EventData = {
     "eventSlug": "wedding",
+    "seatingPlanImageUrl": "https://f005.backblazeb2.com/file/img-gjt-io/mew+wallpaper.png",
     "guests": [
         {
             displayName: "Apple",

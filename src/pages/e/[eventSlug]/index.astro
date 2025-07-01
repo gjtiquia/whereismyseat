@@ -136,16 +136,12 @@ const guests = event.guests.sort((a, b) => {
 
         <!-- Footer -->
         <footer class="relative z-10 mt-4 text-center">
-            <div
-                class="bg-white/40 backdrop-blur-sm rounded-2xl px-4 border border-white/20 inline-block"
+            <a
+                href={`/e/${eventSlug}/seating-plan`}
+                class="bg-white/70 backdrop-blur-sm border-2 border-stone-200 hover:border-stone-300 text-stone-600 font-semibold text-sm py-3 px-6 rounded-2xl transition-all duration-200 shadow-md hover:shadow-lg inline-block"
             >
-                <a
-                    href="/"
-                    class="text-stone-400 underline text-xs font-medium hover:text-stone-600 transition-colors"
-                >
-                    whereismyseat.gjt.io
-                </a>
-            </div>
+                🪑Seating Plan
+            </a>
         </footer>
     </div>
     <script src="../../../scripts/event-home-page.ts"></script>

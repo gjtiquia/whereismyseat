@@ -1,0 +1,59 @@
+---
+import BaseLayout from "../../../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import { tryGetEventDataAsync } from "../../../scripts/db";
+
+export const prerender = false;
+const { eventSlug } = Astro.params;
+
+const event = await tryGetEventDataAsync(eventSlug!);
+if (event == null)
+    return new Response(null, {
+        status: 404,
+        statusText: `cannot find event ${eventSlug}`,
+    });
+
+if (!event.seatingPlanImageUrl)
+    return new Response(null, {
+        status: 404,
+        statusText: `seating plan not available for event ${eventSlug}`,
+    });
+
+const imageURL = event.seatingPlanImageUrl;
+---
+
+<BaseLayout>
+    <div
+        class="h-dvh bg-gradient-to-br from-emerald-50 via-sky-50 to-orange-50 flex flex-col"
+    >
+        <!-- Full-screen image container -->
+        <div class="flex-grow flex justify-center items-center p-4 min-h-0">
+            <div
+                class="bg-white/70 backdrop-blur-sm rounded-3xl p-2 shadow-xl border border-white/30 max-w-full max-h-full flex flex-col"
+            >
+                <div
+                    class="bg-white rounded-2xl p-1 shadow-inner flex justify-center items-center"
+                >
+                    <Image
+                        src={imageURL}
+                        alt="Seating plan"
+                        width="2000"
+                        height="2000"
+                        class="max-w-full max-h-full w-auto h-auto rounded-xl object-contain"
+                    />
+                </div>
+            </div>
+        </div>
+
+        <!-- Back button at bottom -->
+        <div class="p-4 flex justify-center">
+            <a
+                href=`/e/${eventSlug}`
+                class="bg-white/70 backdrop-blur-sm border-2 border-stone-200 hover:border-stone-300 text-stone-600 font-semibold text-sm py-3 px-6 rounded-2xl transition-all duration-200 shadow-md hover:shadow-lg"
+            >
+                ⬅️ Back
+            </a>
+        </div>
+    </div>
+</BaseLayout>
+
