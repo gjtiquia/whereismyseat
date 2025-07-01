@@ -1,4 +1,3 @@
-import { isRenderInstance } from "astro/runtime/server/render/common.js";
 import type { GuestData } from "./config";
 
 main();
@@ -26,10 +25,6 @@ function main() {
         "[data-guest-name-button-list-hint]",
     ) as HTMLParagraphElement
 
-    const buttonListBottomHint = eventHomePage.querySelector(
-        "[data-guest-name-button-list-bottom-hint]",
-    ) as HTMLParagraphElement
-
     const searchButton = eventHomePage.querySelector(
         "[data-search-button]"
     ) as HTMLButtonElement;
@@ -49,6 +44,7 @@ function main() {
         button.element.addEventListener("click", () => {
             guestInput.value = button.displayName;
             refreshButtonList();
+            // searchButton.click();
         });
     });
 
@@ -104,7 +100,6 @@ function main() {
 
         const noSearchResults = shownElementCount == 0;
         const foundExactMatch = shownElementCount == 1 && isInputValue;
-        const isScrollable = shownElementCount >= 9; // based on iPhone SE. should be dynamic lol TODO :
 
         buttonListHint.textContent = "👇 Find and click your name below 👇"
         if (inputValue == "") buttonListHint.textContent = "👇 ...or find and click your name below 👇"
@@ -113,7 +108,6 @@ function main() {
 
         buttonList.hidden = noSearchResults || foundExactMatch;
         searchButton.hidden = !foundExactMatch;
-        buttonListBottomHint.hidden = noSearchResults || foundExactMatch || !isScrollable;
     }
 
     // refresh on load to update the border-t
