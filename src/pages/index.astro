@@ -4,71 +4,71 @@ import BaseLayout from "../layouts/Layout.astro";
 
 <BaseLayout>
     <div
-        class="min-h-dvh bg-gradient-to-br from-orange-50 via-rose-50 to-stone-50 p-4 flex flex-col justify-center items-center"
+        class="min-h-dvh bg-gradient-to-br from-orange-50 via-rose-50 to-stone-50 p-4 flex flex-col items-center"
     >
         <!-- Main content -->
-        <div class="relative z-10 max-w-md w-full">
-            <!-- Header section -->
-            <section class="text-center mb-12">
-                <div class="mb-6">
-                    <div class="text-6xl mb-4">💍</div>
-                    <h1
-                        class="font-serif text-4xl md:text-5xl mb-4 text-stone-700 leading-tight"
-                    >
-                        Where Is My Seat
-                    </h1>
-                    <p
-                        class="text-stone-500 text-lg font-light leading-relaxed"
-                    >
-                        Find your place at our special celebration
-                    </p>
-                </div>
+        <div class="flex-grow flex justify-center items-center">
+            <div class="relative z-10 max-w-md w-full">
+                <!-- Header section -->
+                <section class="text-center mb-12">
+                    <div class="mb-6">
+                        <div class="text-6xl mb-4">💍</div>
+                        <h1
+                            class="font-serif text-4xl md:text-5xl mb-4 text-stone-700 leading-tight"
+                        >
+                            Where Is My Seat
+                        </h1>
+                        <p
+                            class="text-stone-500 text-lg font-light leading-relaxed"
+                        >
+                            Find your place at our special celebration
+                        </p>
+                    </div>
 
-                <!-- Decorative divider -->
-                <div class="flex items-center justify-center mb-8">
-                    <div class="w-8 h-px bg-stone-300"></div>
-                    <div class="mx-3 text-stone-400">✨</div>
-                    <div class="w-8 h-px bg-stone-300"></div>
-                </div>
-            </section>
+                    <!-- Decorative divider -->
+                    <div class="flex items-center justify-center mb-8">
+                        <div class="w-8 h-px bg-stone-300"></div>
+                        <div class="mx-3 text-stone-400">✨</div>
+                        <div class="w-8 h-px bg-stone-300"></div>
+                    </div>
+                </section>
 
-            <!-- Input section -->
-            <section class="space-y-6">
-                <div class="space-y-4">
-                    <label
-                        for="invite-code-input"
-                        class="block text-stone-600 text-center font-medium text-lg cursor-pointer"
-                    >
-                        Enter Your Invite Code
-                    </label>
+                <!-- Input section -->
+                <section class="space-y-6">
+                    <div class="space-y-4">
+                        <label
+                            for="invite-code-input"
+                            class="block text-stone-600 text-center font-medium text-lg cursor-pointer"
+                        >
+                            Enter Your Invite Code
+                        </label>
 
-                    <input
-                        data-invite-code-input
-                        id="invite-code-input"
-                        type="text"
-                        placeholder="ABC123"
-                        class="w-full border-2 border-stone-200 rounded-2xl px-6 py-4 text-center text-lg font-medium bg-white/70 backdrop-blur-sm focus:border-emerald-300 focus:ring-4 focus:ring-emerald-100 focus:outline-none transition-all duration-200 placeholder-stone-400"
-                    />
+                        <input
+                            data-invite-code-input
+                            id="invite-code-input"
+                            type="text"
+                            placeholder="ABC123"
+                            class="w-full border-2 border-stone-200 rounded-2xl px-6 py-4 text-center text-lg font-medium bg-white/70 backdrop-blur-sm focus:border-emerald-300 focus:ring-4 focus:ring-emerald-100 focus:outline-none transition-all duration-200 placeholder-stone-400"
+                        />
 
-                    <button
-                        data-invite-anchor
-                        class="w-full bg-gradient-to-r from-emerald-400 to-emerald-500 hover:from-emerald-500 hover:to-emerald-600 px-8 py-4 text-white font-semibold text-lg rounded-2xl cursor-pointer transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg hover:shadow-xl"
-                    >
-                        Find My Seat ✨
-                    </button>
-                </div>
-            </section>
-
-            <!-- Footer section -->
-            <section class="text-center mt-12">
-                <p class="text-stone-400 text-sm">
-                    Can't find your invite code? <br />
-                    <span class="text-stone-500 font-medium"
-                        >Contact us and we'll help you out! 💕</span
-                    >
-                </p>
-            </section>
+                        <button
+                            data-invite-anchor
+                            class="w-full bg-gradient-to-r from-emerald-400 to-emerald-500 hover:from-emerald-500 hover:to-emerald-600 px-8 py-4 text-white font-semibold text-lg rounded-2xl cursor-pointer transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg hover:shadow-xl"
+                        >
+                            Find My Seat ✨
+                        </button>
+                    </div>
+                </section>
+            </div>
         </div>
+
+        <!-- Footer section -->
+        <section class="text-center">
+            <p class="text-stone-400 text-sm">Can't find your invite code?</p>
+            <p class="text-stone-500 font-medium">
+                Contact us and we'll help you out! 💕
+            </p>
+        </section>
 
         <script>
             const inviteCodeInput = document.querySelector(
@@ -117,3 +117,4 @@ import BaseLayout from "../layouts/Layout.astro";
         </script>
     </div>
 </BaseLayout>
+
