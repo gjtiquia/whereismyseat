@@ -1,0 +1,62 @@
+---
+import BaseLayout from "../../../layouts/Layout.astro";
+
+const { eventSlug } = Astro.params;
+if (!eventSlug) return Astro.redirect("/");
+---
+
+<BaseLayout>
+    <div
+        class="min-h-dvh bg-gradient-to-br from-orange-50 via-rose-50 to-stone-50 p-4 flex flex-col items-center"
+    >
+        <!-- Main content -->
+        <div class="flex-grow flex justify-center items-center">
+            <div class="relative z-10 max-w-md w-full">
+                <!-- Header section -->
+                <section class="text-center mb-8">
+                    <div class="mb-4">
+                        <div class="text-5xl mb-3">💍</div>
+                        <h1
+                            class="font-serif text-3xl md:text-4xl mb-2 text-stone-700 leading-tight"
+                        >
+                            Where Is My Seat
+                        </h1>
+                        <p
+                            class="text-stone-500 text-base font-light leading-relaxed"
+                        >
+                            Find your place at our special celebration
+                        </p>
+                    </div>
+
+                    <!-- Decorative divider -->
+                    <div class="flex items-center justify-center mb-6">
+                        <div class="w-8 h-px bg-stone-300"></div>
+                        <div class="mx-3 text-stone-400">✨</div>
+                        <div class="w-8 h-px bg-stone-300"></div>
+                    </div>
+                </section>
+
+                <!-- Input section -->
+                <section class="flex justify-center text-center">
+                    <a
+                        href=`/e/${eventSlug}`
+                        class="w-full bg-gradient-to-r from-emerald-400 to-emerald-500 hover:from-emerald-500 hover:to-emerald-600 px-6 py-3 text-white font-semibold text-base rounded-2xl cursor-pointer transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg hover:shadow-xl"
+                    >
+                        Find My Seat ✨
+                    </a>
+                </section>
+            </div>
+        </div>
+
+        <!-- Footer section -->
+        <footer class="text-center">
+            <p class="text-stone-400 text-xs">
+                Can't find your invite code? <br />
+                <span class="text-stone-500 font-medium"
+                    >Contact us and we'll help you out! 💕</span
+                >
+            </p>
+        </footer>
+    </div>
+</BaseLayout>
+
