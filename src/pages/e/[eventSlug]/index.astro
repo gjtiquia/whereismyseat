@@ -15,9 +15,25 @@ if (event == null)
         statusText: `Cannot find event ${eventSlug}`,
     });
 
-const guests = event.guests.sort((a, b) => 
-    a.displayName.localeCompare(b.displayName)
-);
+const guests = event.guests.sort((a, b) => {
+    const aLower = a.displayName.toLowerCase();
+    const bLower = b.displayName.toLowerCase();
+
+    const aIsBride = aLower.includes("bride");
+    const bIsBride = bLower.includes("bride");
+    const aIsGroom = aLower.includes("groom");
+    const bIsGroom = bLower.includes("groom");
+
+    // Special ordering: bride first, then groom, then alphabetical
+    if (aIsBride && bIsGroom) return -1;
+    if (aIsGroom && bIsBride) return 1;
+    if (aIsBride) return -1;
+    if (bIsBride) return 1;
+    if (aIsGroom) return -1;
+    if (bIsGroom) return 1;
+
+    return aLower.localeCompare(bLower);
+});
 
 /*
  * ways to implement dropdown
