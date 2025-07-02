@@ -76,13 +76,24 @@ const guests = event.guests.sort((a, b) => {
                 <div
                     class="bg-white/60 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-white/20"
                 >
-                    <input
-                        data-guest-name-input
-                        type="text"
-                        id="guest-name-input"
-                        class="w-full border-2 border-stone-200 rounded-xl py-3 px-4 text-base bg-white/70 backdrop-blur-sm focus:border-emerald-300 focus:ring-4 focus:ring-emerald-100 focus:outline-none transition-all duration-200 placeholder-stone-400"
-                        placeholder="Type your name to search..."
-                    />
+                    <div class="relative">
+                        <input
+                            data-guest-name-input
+                            type="text"
+                            id="guest-name-input"
+                            class="w-full border-2 border-stone-200 rounded-xl py-3 px-4 pr-12 text-base bg-white/70 backdrop-blur-sm focus:border-emerald-300 focus:ring-4 focus:ring-emerald-100 focus:outline-none transition-all duration-200 placeholder-stone-400"
+                            placeholder="Type your name to search..."
+                        />
+                        <button
+                            data-clear-input-button
+                            hidden
+                            type="button"
+                            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-stone-400 hover:text-stone-600 transition-colors duration-200 p-1 text-xl leading-none"
+                            aria-label="Clear input"
+                        >
+                            ×
+                        </button>
+                    </div>
                 </div>
                 <!-- Search hint -->
                 <div class="text-center mt-2">

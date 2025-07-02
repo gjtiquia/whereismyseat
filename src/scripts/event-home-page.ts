@@ -18,6 +18,10 @@ function main() {
         "[data-guest-name-input]",
     ) as HTMLInputElement;
 
+    const clearButton = eventHomePage.querySelector(
+        "[data-clear-input-button]",
+    ) as HTMLButtonElement;
+
     const buttonList = eventHomePage.querySelector(
         "[data-guest-name-button-list]",
     ) as HTMLElement;
@@ -54,6 +58,12 @@ function main() {
     // Note: this fires on EACH key up
     guestInput.addEventListener("keyup", refreshButtonList);
 
+    clearButton.addEventListener("click", () => {
+        guestInput.value = "";
+        refreshButtonList();
+        guestInput.focus();
+    });
+
     searchButton.addEventListener("click", () => {
         const guestName = guestInput.value;
 
@@ -74,6 +84,9 @@ function main() {
     function refreshButtonList() {
         const inputValue = guestInput.value;
         const lowercaseFilter = inputValue.toLowerCase();
+
+        // Show/hide clear button based on input value
+        clearButton.hidden = inputValue === "";
 
         let shownElementCount = 0;
         let isInputValue = false;
