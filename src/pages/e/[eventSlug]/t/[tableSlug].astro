@@ -29,7 +29,7 @@ const tableDisplayName = table.tableDisplayName;
 
 <BaseLayout>
     <div
-        class="h-dvh bg-gradient-to-br from-emerald-50 via-sky-50 to-orange-50 p-4 flex flex-col"
+        class="min-h-dvh bg-gradient-to-br from-emerald-50 via-sky-50 to-orange-50 p-4 flex flex-col"
     >
         <!-- Main content -->
         <div
@@ -48,10 +48,10 @@ const tableDisplayName = table.tableDisplayName;
 
             <!-- Table Image Section -->
             <section
-                class="flex-grow flex flex-col justify-center items-center my-4 min-h-0"
+                class="my-4"
             >
                 <div
-                    class="bg-white/70 backdrop-blur-sm rounded-3xl p-4 shadow-xl border border-white/30 max-w-full flex flex-col max-h-full"
+                    class="bg-white/70 backdrop-blur-sm rounded-3xl p-4 shadow-xl border border-white/30 max-w-full"
                 >
                     <div class="mb-2 text-center">
                         <h2 class="text-xl font-semibold text-stone-700">
@@ -60,14 +60,14 @@ const tableDisplayName = table.tableDisplayName;
                     </div>
 
                     <div
-                        class="bg-white rounded-2xl p-2 shadow-inner flex-grow flex justify-center items-center"
+                        class="bg-white rounded-2xl p-2 shadow-inner"
                     >
                         <Image
                             src={imageURL}
                             alt={"Seating arrangement for " + tableDisplayName}
                             width="1000"
                             height="1000"
-                            class="w-auto h-full rounded-xl object-contain"
+                            class="w-full rounded-xl object-contain"
                         />
                     </div>
 
@@ -80,7 +80,7 @@ const tableDisplayName = table.tableDisplayName;
             </section>
 
             <!-- Navigation Section -->
-            <section class="flex gap-4 max-w-sm mx-auto w-full">
+            <section class="flex gap-4 max-w-sm mx-auto w-full mt-4">
                 <a
                     href=`/e/${eventSlug}`
                     class="flex-1 bg-white/70 backdrop-blur-sm border-2 border-stone-200 hover:border-stone-300 text-stone-600 font-semibold text-sm py-3 px-4 rounded-2xl text-center transition-all duration-200 shadow-md hover:shadow-lg"
