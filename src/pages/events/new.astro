@@ -1,0 +1,59 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+export const prerender = false;
+
+const userId = Astro.cookies.get('user_id')?.value;
+if (!userId) {
+  return Astro.redirect('/login');
+}
+---
+
+<Layout title="Create New Event">
+  <main class="min-h-dvh bg-gradient-to-br from-emerald-50 via-sky-50 to-orange-50 p-4 flex flex-col justify-center items-center">
+    <div class="relative z-10 flex flex-col gap-3 max-w-md mx-auto w-full">
+      <section class="text-center">
+        <h1 class="font-serif text-2xl text-stone-700">Create New Event</h1>
+      </section>
+      <section>
+        <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-white/20">
+          <form id="create-event-form" class="space-y-4">
+            <div class="form-group">
+              <label for="name" class="block text-stone-600 text-center font-medium text-base cursor-pointer">Event Name</label>
+              <input type="text" id="name" name="name" required class="w-full border-2 border-stone-200 rounded-xl py-3 px-4 pr-12 text-base bg-white/70 backdrop-blur-sm focus:border-emerald-300 focus:ring-4 focus:ring-emerald-100 focus:outline-none transition-all duration-200 placeholder-stone-400">
+            </div>
+            <div class="form-group">
+              <label for="slug" class="block text-stone-600 text-center font-medium text-base cursor-pointer">Event Slug (e.g., my-cool-event)</label>
+              <input type="text" id="slug" name="slug" required class="w-full border-2 border-stone-200 rounded-xl py-3 px-4 pr-12 text-base bg-white/70 backdrop-blur-sm focus:border-emerald-300 focus:ring-4 focus:ring-emerald-100 focus:outline-none transition-all duration-200 placeholder-stone-400">
+            </div>
+            <button type="submit" class="w-full bg-gradient-to-r from-emerald-400 to-emerald-500 hover:from-emerald-500 hover:to-emerald-600 py-3 px-6 text-white font-semibold text-base rounded-xl transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg hover:shadow-xl">Create Event</button>
+          </form>
+        </div>
+      </section>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  document.getElementById('create-event-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const name = (form.elements.namedItem('name') as HTMLInputElement).value;
+    const slug = (form.elements.namedItem('slug') as HTMLInputElement).value;
+
+    const response = await fetch('/api/events', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ name, slug })
+    });
+
+    if (response.ok) {
+      window.location.href = '/dashboard';
+    } else {
+      const { message } = await response.json();
+      alert(`Event creation failed: ${message}`);
+    }
+  });
+</script>

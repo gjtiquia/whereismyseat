@@ -1,0 +1,183 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import fs from 'fs/promises';
+import path from 'path';
+
+export const prerender = false;
+
+const { eventSlug } = Astro.params;
+if (!eventSlug) return Astro.redirect("/");
+
+const eventsFilePath = path.resolve(process.cwd(), 'data/events.json');
+const eventsData = await fs.readFile(eventsFilePath, 'utf-8');
+const events = JSON.parse(eventsData);
+const event = events.find(e => e.slug === eventSlug);
+
+if (!event) {
+    return new Response(null, {
+        status: 404,
+        statusText: `Cannot find event ${eventSlug}`,
+    });
+}
+
+const userId = Astro.cookies.get('user_id')?.value;
+if (event.userId !== userId) {
+  return Astro.redirect('/login');
+}
+
+---
+<Layout title={`Edit ${event.name}`}>
+  <main class="min-h-dvh bg-gradient-to-br from-emerald-50 via-sky-50 to-orange-50 p-4 flex flex-col justify-center items-center">
+    <div class="relative z-10 flex flex-col gap-3 max-w-md mx-auto w-full">
+      <section class="text-center">
+        <h1 class="font-serif text-2xl text-stone-700">Edit {event.name}</h1>
+      </section>
+    <section>
+        <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-white/20">
+          <form id="edit-event-form" class="space-y-4">
+            <input type="hidden" name="eventId" value={event.id} />
+            <div class="form-group">
+              <label for="name" class="block text-stone-600 text-center font-medium text-base cursor-pointer">Event Name</label>
+              <input type="text" id="name" name="name" value={event.name} required class="w-full border-2 border-stone-200 rounded-xl py-3 px-4 pr-12 text-base bg-white/70 backdrop-blur-sm focus:border-emerald-300 focus:ring-4 focus:ring-emerald-100 focus:outline-none transition-all duration-200 placeholder-stone-400">
+            </div>
+            <div class="form-group">
+              <label for="slug" class="block text-stone-600 text-center font-medium text-base cursor-pointer">Event Slug</label>
+              <input type="text" id="slug" name="slug" value={event.slug} required class="w-full border-2 border-stone-200 rounded-xl py-3 px-4 pr-12 text-base bg-white/70 backdrop-blur-sm focus:border-emerald-300 focus:ring-4 focus:ring-emerald-100 focus:outline-none transition-all duration-200 placeholder-stone-400">
+            </div>
+            
+            <h2 class="font-serif text-xl text-stone-700 mt-6 mb-2">Logo</h2>
+            <div class="form-group">
+              <label for="logo-url" class="block text-stone-600 text-center font-medium text-base cursor-pointer">URL</label>
+              <input type="text" id="logo-url" name="logo.url" value={event.logo.url} class="w-full border-2 border-stone-200 rounded-xl py-3 px-4 pr-12 text-base bg-white/70 backdrop-blur-sm focus:border-emerald-300 focus:ring-4 focus:ring-emerald-100 focus:outline-none transition-all duration-200 placeholder-stone-400">
+            </div>
+            <div class="form-group">
+              <label for="logo-width" class="block text-stone-600 text-center font-medium text-base cursor-pointer">Width</label>
+              <input type="number" id="logo-width" name="logo.width" value={event.logo.width} class="w-full border-2 border-stone-200 rounded-xl py-3 px-4 pr-12 text-base bg-white/70 backdrop-blur-sm focus:border-emerald-300 focus:ring-4 focus:ring-emerald-100 focus:outline-none transition-all duration-200 placeholder-stone-400">
+            </div>
+            <div class="form-group">
+              <label for="logo-height" class="block text-stone-600 text-center font-medium text-base cursor-pointer">Height</label>
+              <input type="number" id="logo-height" name="logo.height" value={event.logo.height} class="w-full border-2 border-stone-200 rounded-xl py-3 px-4 pr-12 text-base bg-white/70 backdrop-blur-sm focus:border-emerald-300 focus:ring-4 focus:ring-emerald-100 focus:outline-none transition-all duration-200 placeholder-stone-400">
+            </div>
+
+            <h2 class="font-serif text-xl text-stone-700 mt-6 mb-2">Colors</h2>
+            <div class="form-group">
+              <label for="color-primary" class="block text-stone-600 text-center font-medium text-base cursor-pointer">Primary</label>
+              <input type="color" id="color-primary" name="colors.primary" value={event.colors.primary} class="w-full border-2 border-stone-200 rounded-xl py-3 px-4 pr-12 text-base bg-white/70 backdrop-blur-sm focus:border-emerald-300 focus:ring-4 focus:ring-emerald-100 focus:outline-none transition-all duration-200 placeholder-stone-400">
+            </div>
+            <div class="form-group">
+              <label for="color-secondary" class="block text-stone-600 text-center font-medium text-base cursor-pointer">Secondary</label>
+              <input type="color" id="color-secondary" name="colors.secondary" value={event.colors.secondary} class="w-full border-2 border-stone-200 rounded-xl py-3 px-4 pr-12 text-base bg-white/70 backdrop-blur-sm focus:border-emerald-300 focus:ring-4 focus:ring-emerald-100 focus:outline-none transition-all duration-200 placeholder-stone-400">
+            </div>
+            <div class="form-group">
+              <label for="color-accent" class="block text-stone-600 text-center font-medium text-base cursor-pointer">Accent</label>
+              <input type="color" id="color-accent" name="colors.accent" value={event.colors.accent} class="w-full border-2 border-stone-200 rounded-xl py-3 px-4 pr-12 text-base bg-white/70 backdrop-blur-sm focus:border-emerald-300 focus:ring-4 focus:ring-emerald-100 focus:outline-none transition-all duration-200 placeholder-stone-400">
+            </div>
+
+            <h2 class="font-serif text-xl text-stone-700 mt-6 mb-2">Guests</h2>
+            <div id="guests-container" class="space-y-2">
+              <!-- Guest fields will be dynamically added here -->
+            </div>
+            <button type="button" id="add-guest" class="w-full bg-white/70 backdrop-blur-sm border-2 border-stone-200 hover:border-stone-300 text-stone-600 font-semibold text-base py-3 px-6 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg">Add Guest</button>
+
+            <h2 class="font-serif text-xl text-stone-700 mt-6 mb-2">Tables</h2>
+            <div id="tables-container" class="space-y-2">
+              <!-- Table fields will be dynamically added here -->
+            </div>
+            <button type="button" id="add-table" class="w-full bg-white/70 backdrop-blur-sm border-2 border-stone-200 hover:border-stone-300 text-stone-600 font-semibold text-base py-3 px-6 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg">Add Table</button>
+
+            <button type="submit" class="w-full bg-gradient-to-r from-emerald-400 to-emerald-500 hover:from-emerald-500 hover:to-emerald-600 py-3 px-6 text-white font-semibold text-base rounded-xl transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg hover:shadow-xl">Save Changes</button>
+          </form>
+        </div>
+      </section>
+    </div>
+  </main>
+</Layout>
+
+<script define:vars={{ event }}>
+  const guestsContainer = document.getElementById('guests-container');
+  const addGuestBtn = document.getElementById('add-guest');
+  let guestCount = 0;
+
+  function addGuest(guest = { displayName: '', tableId: '' }) {
+    const guestId = guestCount++;
+    const guestDiv = document.createElement('div');
+    guestDiv.innerHTML = `
+      <div class="guest-item">
+        <input type="text" name="guests[${guestId}][displayName]" placeholder="Guest Name" value="${guest.displayName}" required>
+        <input type="text" name="guests[${guestId}][tableId]" placeholder="Table ID" value="${guest.tableId}">
+        <button type="button" class="remove-guest">Remove</button>
+      </div>
+    `;
+    guestsContainer.appendChild(guestDiv);
+  }
+
+  event.guests.forEach(addGuest);
+
+  addGuestBtn.addEventListener('click', () => addGuest());
+
+  guestsContainer.addEventListener('click', (e) => {
+    if (e.target.classList.contains('remove-guest')) {
+      e.target.parentElement.remove();
+    }
+  });
+
+  const tablesContainer = document.getElementById('tables-container');
+  const addTableBtn = document.getElementById('add-table');
+  let tableCount = 0;
+
+  function addTable(table = { id: '', name: '' }) {
+    const tableId = tableCount++;
+    const tableDiv = document.createElement('div');
+    tableDiv.innerHTML = `
+      <div class="table-item">
+        <input type="text" name="tables[${tableId}][id]" placeholder="Table ID" value="${table.id}" required>
+        <input type="text" name="tables[${tableId}][name]" placeholder="Table Name" value="${table.name}" required>
+        <button type="button" class="remove-table">Remove</button>
+      </div>
+    `;
+    tablesContainer.appendChild(tableDiv);
+  }
+
+  event.seating.tables.forEach(addTable);
+
+  addTableBtn.addEventListener('click', () => addTable());
+
+  tablesContainer.addEventListener('click', (e) => {
+    if (e.target.classList.contains('remove-table')) {
+      e.target.parentElement.remove();
+    }
+  });
+
+
+  document.getElementById('edit-event-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const data = {};
+    
+    // This is a simplified way to handle form data. A more robust solution would handle nested objects better.
+    for (let [key, value] of formData.entries()) {
+        const keys = key.split(/[[\]\.]/).filter(Boolean);
+        let current = data;
+        for (let i = 0; i < keys.length - 1; i++) {
+            if (!current[keys[i]]) {
+                current[keys[i]] = isNaN(keys[i+1]) ? {} : [];
+            }
+            current = current[keys[i]];
+        }
+        current[keys[keys.length - 1]] = value;
+    }
+
+    const response = await fetch(`/api/events/${event.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    if (response.ok) {
+      window.location.href = '/dashboard';
+    } else {
+      alert('Failed to update event');
+    }
+  });
+</script>

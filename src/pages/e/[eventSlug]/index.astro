@@ -1,14 +1,20 @@
 ---
 import BaseLayout from "../../../layouts/Layout.astro";
 import type { EventData, GuestData } from "../../../scripts/config.ts";
-import { tryGetEventDataAsync } from "../../../scripts/db";
 
 export const prerender = false;
 
 const { eventSlug } = Astro.params;
 if (!eventSlug) return Astro.redirect("/");
 
-const event = await tryGetEventDataAsync(eventSlug);
+// Fetch event data from the API route
+const response = await fetch(`${Astro.url.origin}/api/events/${eventSlug}`);
+let event: EventData | null = null;
+
+if (response.ok) {
+    event = await response.json();
+}
+
 if (event == null)
     return new Response(null, {
         status: 404,

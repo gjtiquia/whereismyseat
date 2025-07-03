@@ -1,0 +1,51 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { type APIRoute } from 'astro';
+import fs from 'fs/promises';
+import path from 'path';
+
+export const prerender = false;
+
+const eventsFilePath = path.resolve(process.cwd(), 'data/events.json');
+
+// This is a server-side check to redirect if the user is not logged in.
+const userId = Astro.cookies.get('user_id')?.value;
+if (!userId) {
+  return Astro.redirect('/login');
+}
+
+const eventsData = await fs.readFile(eventsFilePath, 'utf-8');
+const allEvents = JSON.parse(eventsData);
+const userEvents = allEvents.filter(event => event.userId === userId);
+---
+
+<Layout title="Dashboard">
+  <main class="min-h-dvh bg-gradient-to-br from-emerald-50 via-sky-50 to-orange-50 p-4 flex flex-col justify-center items-center">
+    <div class="relative z-10 flex flex-col gap-3 max-w-md mx-auto w-full">
+      <section class="text-center">
+        <h1 class="font-serif text-2xl text-stone-700">Your Events</h1>
+      </section>
+      <section class="flex flex-col gap-4">
+        <a href="/events/new" class="w-full bg-gradient-to-r from-emerald-400 to-emerald-500 hover:from-emerald-500 hover:to-emerald-600 py-3 px-6 text-white font-semibold text-base rounded-xl transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg hover:shadow-xl text-center">Create New Event</a>
+        <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-white/20">
+          <ul class="space-y-2">
+            {userEvents.map(event => (
+              <li class="flex justify-between items-center bg-white/70 backdrop-blur-sm rounded-lg p-3 shadow-sm border border-stone-200">
+                <span class="text-stone-700 font-medium">{event.name}</span>
+                <div class="flex gap-2">
+                  <a href={`/e/${event.slug}`} target="_blank" class="text-sm text-emerald-600 hover:underline">View</a>
+                  <a href={`/e/${event.slug}/edit`} class="text-sm text-sky-600 hover:underline">Edit</a>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+      <section class="mt-4">
+        <form action="/api/logout" method="post">
+            <button type="submit" class="w-full bg-white/70 backdrop-blur-sm border-2 border-stone-200 hover:border-stone-300 text-stone-600 font-semibold text-base py-3 px-6 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg">Logout</button>
+        </form>
+      </section>
+    </div>
+  </main>
+</Layout>

@@ -23,4 +23,4 @@ export async function tryGetEventDataAsync(eventSlug: string): Promise<EventData
 
     const event: EventData = await response.json();
     return event;
-} 
+}

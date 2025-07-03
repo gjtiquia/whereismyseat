@@ -1,14 +1,19 @@
 ---
 import BaseLayout from "../../../layouts/Layout.astro";
 import { Image } from "astro:assets";
-import { tryGetEventDataAsync } from "../../../scripts/db";
+import type { EventData } from "../../../scripts/config.ts";
 
 export const prerender = false;
 const { eventSlug } = Astro.params;
 const tableSlug = Astro.url.searchParams.get("tableSlug");
 const guestName = Astro.url.searchParams.get("guestName");
 
-const event = await tryGetEventDataAsync(eventSlug!);
+const response = await fetch(`${Astro.url.origin}/api/events/${eventSlug}`);
+let event: EventData | null = null;
+if (response.ok) {
+    event = await response.json();
+}
+
 if (event == null)
     return new Response(null, {
         status: 404,

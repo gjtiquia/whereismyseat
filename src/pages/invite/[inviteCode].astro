@@ -6,7 +6,7 @@ export const prerender = false;
 
 const { inviteCode } = Astro.params;
 
-if (!inviteCode) return Astro.redirect(`/e/${eventSlug}`);
+if (!inviteCode) return Astro.redirect(`/`);
 
 const eventSlug = await tryGetEventSlugAsync(inviteCode);
 if (eventSlug == null)
